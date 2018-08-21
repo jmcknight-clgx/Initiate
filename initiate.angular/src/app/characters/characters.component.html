@@ -5,13 +5,15 @@
     </button>
 
     <mat-list>
-      <mat-list-item *ngFor="let character of getOrderedCharacters(); let i = index" (click)="selectCharacter(character)" [class.selected-character]="character.isSelected">
+      <mat-list-item *ngFor="let character of getOrderedCharacters(); let i = index; last as last" (click)="selectCharacter(character)"
+        [class.selected-character]="character.isSelected">
         <mat-icon matListIcon>person</mat-icon>
         <h3 matLine> {{character.name}} </h3>
         <p matLine>
           <span> {{character.initiative}} </span>
         </p>
         <button class="die-button" mat-icon-button (click)="removeCharacter(i, character)"><mat-icon>close</mat-icon></button>
+        <!-- <mat-divider [inset]="true" *ngIf="!last"></mat-divider> -->
       </mat-list-item>
     </mat-list>
 
@@ -38,11 +40,26 @@
           </mat-form-field>
 
           <mat-form-field>
-              <input matInput class="mat-autosize" type="number" name="hp" placeholder="HP" [(ngModel)]="selectedCharacter.hp">
-            </mat-form-field>
-          <!-- <mat-form-field class="example-full-width">
-            <textarea matInput placeholder="Leave a comment"></textarea>
-          </mat-form-field> -->
+            <input matInput class="mat-autosize" type="number" name="hp" placeholder="HP" [(ngModel)]="selectedCharacter.hp">
+          </mat-form-field>
+
+          <mat-card>
+            <mat-card-subtitle>Character Conditions</mat-card-subtitle>
+            <mat-card-content>
+              <mat-list>
+                <mat-list-item>
+                  <input matInput class="mat-autosize" type="text" name="condition" placeholder="New Condition" [(ngModel)]="newCondition">
+                  <button id="" mat-button (click)="addCharacterCondition()">
+                    <mat-icon matListIcon>add</mat-icon>
+                  </button>
+                </mat-list-item>
+                <mat-list-item *ngFor="let status of selectedCharacter.conditions;">
+                  <p>{{status.name}}</p>
+                  <mat-divider></mat-divider>
+                </mat-list-item>
+              </mat-list>
+            </mat-card-content>
+          </mat-card>
         </form>
       </mat-card-content>
       <mat-card-actions>

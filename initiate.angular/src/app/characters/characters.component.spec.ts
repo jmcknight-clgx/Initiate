@@ -7,7 +7,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSidenavModule, MatIconModule, MatListModule, MatCardModule, MatInputModule, MatButtonModule, MatToolbarModule } from '@angular/material';
-import { Status } from '../models/status';
+import { Condition } from '../models/character-condition';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('CharactersComponent', () => {
@@ -21,7 +21,7 @@ describe('CharactersComponent', () => {
       name: "Sir Test",
       initiative: 11,
       ac: 15,
-      statuses: [] as Status[],
+      conditions: [] as Condition[],
     } as Character] as Character[];
 
     mockLocalStorage = jasmine.createSpyObj('LocalStorageService', ['addCharacter', 'saveCharacters', 'getCharacters']);
@@ -56,13 +56,13 @@ describe('CharactersComponent', () => {
           name: "Sir Test",
           initiative: 11,
           ac: 15,
-          statuses: [] as Status[],
+          conditions: [] as Condition[],
         } as Character,
         {
           name: "Sir Testyyyy",
           initiative: 20,
           ac: 1,
-          statuses: [] as Status[],
+          conditions: [] as Condition[],
         } as Character
       ] as Character[];
 
@@ -94,7 +94,7 @@ describe('CharactersComponent', () => {
         ac: 16,
         initiative: 12,
         name: "Sir Butts",
-        statuses: [] as Status[],
+        conditions: [] as Condition[],
       } as Character);
       component.selectedCharacterRef = character;
       component.newCharacter = character;
@@ -112,7 +112,7 @@ describe('CharactersComponent', () => {
         ac: 16,
         initiative: 12,
         name: "Sir Butts",
-        statuses: [] as Status[],
+        conditions: [] as Condition[],
       } as Character);
       component.selectedCharacterRef = character;
       component.newCharacter = character;
@@ -146,7 +146,7 @@ describe('CharactersComponent', () => {
         ac: 16,
         initiative: 12,
         name: "Sir Butts",
-        statuses: [] as Status[],
+        conditions: [] as Condition[],
         isSelected: false
       } as Character);
       component.characters = [character];
@@ -163,7 +163,7 @@ describe('CharactersComponent', () => {
         ac: 16,
         initiative: 12,
         name: "Sir Butts",
-        statuses: [] as Status[],
+        conditions: [] as Condition[],
         isSelected: true
       } as Character);
       component.selectedCharacterRef = character;
@@ -186,7 +186,7 @@ describe('CharactersComponent', () => {
         ac: 16,
         initiative: 12,
         name: "Sir Butts",
-        statuses: [] as Status[],
+        conditions: [] as Condition[],
         isSelected: true
       } as Character);
       component.selectedCharacterRef = character;

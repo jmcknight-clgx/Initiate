@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Character } from '../models/character';
 import { LocalStorageService } from '../services/local-storage.service';
+import { Condition } from '../models/character-condition';
 
 @Component({
   selector: 'characters',
@@ -12,6 +13,7 @@ export class CharactersComponent {
   selectedCharacterRef: Character;
   selectedCharacter: Character;
   newCharacter: Character;
+  newCondition: string;
 
   constructor(private localStorageService: LocalStorageService) {
     this.characters = this.localStorageService.getCharacters();
@@ -64,6 +66,14 @@ export class CharactersComponent {
     if (character.isSelected) {
       this.clearSelectedCharacter();
     }
+  }
+
+  addCharacterCondition() {
+    this.selectedCharacter.conditions.push({
+      name: this.newCondition
+    } as Condition);
+
+    this.newCondition = undefined;
   }
 
   resetForm() {
