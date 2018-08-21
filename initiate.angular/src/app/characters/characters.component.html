@@ -1,12 +1,12 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav mode="side" opened>
     <mat-list>
-      <mat-list-item *ngFor="let character of getOrderedCharacters()" (click)="selectedCharacter = character" [class.selected-character]="character == selectedCharacter">
-          <mat-icon matListIcon>person</mat-icon>
-          <h3 matLine> {{character.name}} </h3>
-          <p matLine>
-            <span> {{character.initiative}} </span>
-          </p>
+      <mat-list-item *ngFor="let character of getOrderedCharacters()" (click)="selectCharacter(character)" [class.selected-character]="character == selectedCharacter">
+        <mat-icon matListIcon>person</mat-icon>
+        <h3 matLine> {{character.name}} </h3>
+        <p matLine>
+          <span> {{character.initiative}} </span>
+        </p>
       </mat-list-item>
     </mat-list>
     <button id="addCharacterButton" mat-button (click)="displayNewCharacterForm()"> 
@@ -18,13 +18,13 @@
     <mat-card *ngIf="selectedCharacter">
       <mat-card-title>
         <mat-form-field class="example-full-width">
-          <input matInput placeholder="Name" [(ngModel)]="selectedCharacter.name">
+          <input matInput placeholder="Name" [(ngModel)]="tempCharacter.name">
         </mat-form-field>
       </mat-card-title>
       <mat-card-content>
         <form class="example-form">
           <mat-form-field class="example-full-width">
-            <input matInput name="inititiave" placeholder="Initiative" [(ngModel)]="selectedCharacter.initiative">
+            <input matInput name="initiative" placeholder="Initiative" [(ngModel)]="tempCharacter.initiative">
           </mat-form-field>
 
           <!-- <mat-form-field class="example-full-width">

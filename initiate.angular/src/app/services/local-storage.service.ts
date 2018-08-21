@@ -18,7 +18,8 @@ export class LocalStorageService {
     getCharacters(): Character[] {
         let charactersItem = window.localStorage.getItem('characters');
         if (charactersItem) {
-            return JSON.parse(charactersItem) as Character[];
+            let characters = JSON.parse(charactersItem) as Character[];
+            return characters.map(c => Object.assign(new Character(), c));
         }
 
         return [] as Character[];

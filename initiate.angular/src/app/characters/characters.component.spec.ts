@@ -90,12 +90,13 @@ describe('CharactersComponent', () => {
   describe('saveCharacter', () => {
     it('should call localStorageService', () => {
       // arrange
-      let character = {
+      let character = Object.assign(new Character(), {
         ac: 16,
         initiative: 12,
         name: "Sir Butts",
         statuses: [] as Status[],
-      } as Character;
+      } as Character);
+      component.selectedCharacter = character;
       component.newCharacter = character;
 
       // act
@@ -107,12 +108,13 @@ describe('CharactersComponent', () => {
 
     it('should set newCharacter to undefined', () => {
        // arrange
-       let character = {
+       let character = Object.assign(new Character(), {
         ac: 16,
         initiative: 12,
         name: "Sir Butts",
         statuses: [] as Status[],
-      } as Character;
+      } as Character);
+      component.selectedCharacter = character;
       component.newCharacter = character;
 
       // act
