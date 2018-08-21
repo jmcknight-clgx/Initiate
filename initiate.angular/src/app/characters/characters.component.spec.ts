@@ -201,6 +201,47 @@ describe('CharactersComponent', () => {
       expect(component.selectedCharacter).toBe(undefined);
       expect(component.characters.filter(c => c.isSelected).length).toBe(0);
     });
-  })
+  });
+
+  describe('addCharacterCondition', () => {
+    it('should add condition to selectedCharacter', () => {
+      // arrange
+      component.newCondition = 'test';
+      let character = Object.assign(new Character(), {
+        ac: 16,
+        initiative: 12,
+        name: "Sir Butts",
+        conditions: [] as Condition[],
+        isSelected: true
+      } as Character);
+      component.selectedCharacter = character;
+
+      // act
+      component.addCharacterCondition();
+
+      // assert
+      expect(component.selectedCharacter.conditions.length).toBe(1);
+    });
+    
+    it('does not add condition if newCondition is undefined', () => {
+      // arrange
+      component.newCondition = undefined;
+      let character = Object.assign(new Character(), {
+        ac: 16,
+        initiative: 12,
+        name: "Sir Butts",
+        conditions: [] as Condition[],
+        isSelected: true
+      } as Character);
+      component.selectedCharacter = character;
+  
+      // act
+      component.addCharacterCondition();
+  
+      // assert
+      expect(component.selectedCharacter.conditions.length).toBe(0);
+    });
+
+  });
 
 });

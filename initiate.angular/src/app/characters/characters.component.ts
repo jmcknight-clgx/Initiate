@@ -38,7 +38,7 @@ export class CharactersComponent {
     if (character) {
       this.characters.forEach(c => c.isSelected = false);
       character.isSelected = true;
-      
+
       this.selectedCharacterRef = character;
       this.selectedCharacter = JSON.parse(JSON.stringify(character));
     }
@@ -46,7 +46,7 @@ export class CharactersComponent {
 
   saveCharacter() {
     this.selectedCharacterRef.populate(this.selectedCharacter);
-    
+
     if (this.newCharacter) {
       // add character
       this.localStorageService.addCharacter(this.newCharacter, this.characters);
@@ -71,11 +71,17 @@ export class CharactersComponent {
   }
 
   addCharacterCondition() {
-    this.selectedCharacter.conditions.push({
-      name: this.newCondition
-    } as Condition);
+    if (this.newCondition) {
+      this.selectedCharacter.conditions.push({
+        name: this.newCondition
+      } as Condition);
 
-    this.newCondition = undefined;
+      this.newCondition = undefined;
+    }
+  }
+
+  removeCharacterCondition(conditionIndex: number) {
+    this.selectedCharacter.conditions.splice(conditionIndex, 1);
   }
 
   resetForm() {

@@ -9,6 +9,7 @@
 
     mat-sidenav {
       min-width: 23%;
+
       #addCharacterButton {
         position: absolute;
         top: 0;
@@ -24,34 +25,33 @@
       mat-list {
         margin-top: 40px;
       }
-
-      .die-button {
-        position: absolute;
-        right: 0;
-        margin-right: 5px;
-      }
     }
     
     mat-sidenav-content {
         padding: 10px;
+
         .character-form {
             width: 100%;
             mat-form-field {
               margin-right: 10px;
             }
         }  
+
         .full-width {
             width: 100%;
         }
     }
   }
 
-  
-
   .selected-character {
     background: #cecece;
   }
 
+  .die-button {
+    position: absolute;
+    right: 0;
+    margin-right: 5px;
+  }
   .current-turn-icon {
     color: red;
     font-size: 36px !important
