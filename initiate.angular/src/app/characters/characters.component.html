@@ -1,7 +1,7 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav mode="side" opened>
     <mat-list>
-      <mat-list-item *ngFor="let character of characters">
+      <mat-list-item *ngFor="let character of characters" (click)="selectedCharacter = character">
         <mat-icon matListIcon>person</mat-icon>
         <h3 matLine> {{character.name}} </h3>
         <p matLine>
@@ -9,10 +9,18 @@
         </p>
       </mat-list-item>
     </mat-list>
+    <button id="addCharacterButton" mat-button> 
+      <mat-icon matListIcon>add</mat-icon> Add Character
+    </button>
   </mat-sidenav>
+
   <mat-sidenav-content>
     <mat-card>
-      <mat-card-title>{{selectedCharacter.name}}</mat-card-title>
+      <mat-card-title>
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Name" [(ngModel)]="selectedCharacter.name">
+        </mat-form-field>
+      </mat-card-title>
       <mat-card-content>
         <form class="example-form">
           <mat-form-field class="example-full-width">

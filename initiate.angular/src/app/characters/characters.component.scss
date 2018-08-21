@@ -8,18 +8,20 @@
     z-index: -1 !important;
 
     mat-sidenav {
-       
+      min-width: 23%;
+      #addCharacterButton {
+        position: absolute;
+        bottom: 0;
+      }
     }
     
     mat-sidenav-content {
-     
         padding: 10px;
         .example-form {
             width: 100%;
-          }
-          
-          .example-full-width {
+        }  
+        .example-full-width {
             width: 100%;
-          }
+        }
     }
   }
