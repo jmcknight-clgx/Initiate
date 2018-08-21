@@ -6,5 +6,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'app';
+  title: string = 'app';
+  combatIsInProgress: Boolean = false;
+  combatButtonText: string = "Start";
+
+  toggleCombat() {
+    this.combatIsInProgress = !this.combatIsInProgress;
+    this.combatButtonText = this.combatIsInProgress ? "End" : "Start"; 
+  }
 }

@@ -5,9 +5,9 @@
     </button>
 
     <mat-list>
-      <mat-list-item *ngFor="let character of getOrderedCharacters(); let i = index; last as last" (click)="selectCharacter(character)"
-        [class.selected-character]="character.isSelected">
-        <mat-icon matListIcon>person</mat-icon>
+      <mat-list-item *ngFor="let character of getOrderedCharacters(); let i = index" (click)="selectCharacter(character)" [class.selected-character]="character.isSelected">
+        <mat-icon matListIcon *ngIf="!(combatIsInProgress && i == 0)">person</mat-icon>
+        <mat-icon matListIcon *ngIf="combatIsInProgress && i == 0" class="current-turn-icon">arrow_right_alt</mat-icon>
         <h3 matLine> {{character.name}} </h3>
         <p matLine>
           <span> {{character.initiative}} </span>

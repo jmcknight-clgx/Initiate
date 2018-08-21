@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Character } from '../models/character';
 import { LocalStorageService } from '../services/local-storage.service';
 import { Condition } from '../models/character-condition';
@@ -9,6 +9,8 @@ import { Condition } from '../models/character-condition';
   styleUrls: ['./characters.component.scss']
 })
 export class CharactersComponent {
+  @Input() combatIsInProgress: boolean; 
+
   characters: Character[] = [];
   selectedCharacterRef: Character;
   selectedCharacter: Character;
