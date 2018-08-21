@@ -137,6 +137,7 @@ describe('CharactersComponent', () => {
       expect(mockLocalStorage.saveCharacters).toHaveBeenCalledWith([] as Character[]);
       expect(component.characters.length).toBe(0);
       expect(component.selectedCharacter).toBe(undefined);
+      expect(component.tempCharacter).toBe(undefined);
     });
   });
 

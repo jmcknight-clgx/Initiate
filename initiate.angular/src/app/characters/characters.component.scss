@@ -18,10 +18,13 @@
     
     mat-sidenav-content {
         padding: 10px;
-        .example-form {
+        .character-form {
             width: 100%;
+            mat-form-field {
+              margin-right: 10px;
+            }
         }  
-        .example-full-width {
+        .full-width {
             width: 100%;
         }
     }
