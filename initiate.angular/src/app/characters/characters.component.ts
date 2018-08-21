@@ -20,11 +20,7 @@ export class CharactersComponent {
 
   getOrderedCharacters() {
     let sortedList = this.characters.slice(0);
-    sortedList.sort((left, right): number => {
-      if (left.initiative < right.initiative) return 1;
-      if (left.initiative > right.initiative) return -1;
-      return 0;
-    });
+    sortedList.sort((left, right): number => right.initiative - left.initiative);
 
     return sortedList;
   }
@@ -44,6 +40,11 @@ export class CharactersComponent {
 
     // save character
     this.localStorageService.saveCharacters(this.characters);
+  }
+
+  resetForm(){
+    this.characters = [];
+    this.localStorageService.saveCharacters([] as Character[]);
   }
 
 }

@@ -15,13 +15,13 @@ export class LocalStorageService {
         window.localStorage.setItem('characters', JSON.stringify(characters));
     }
 
-    getCharacters() {
+    getCharacters(): Character[] {
         let charactersItem = window.localStorage.getItem('characters');
         if (charactersItem) {
-            return JSON.parse(charactersItem);
+            return JSON.parse(charactersItem) as Character[];
         }
 
-        return [];
+        return [] as Character[];
     }
 
 }

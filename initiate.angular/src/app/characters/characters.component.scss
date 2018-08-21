@@ -1,4 +1,4 @@
-    .sidenav-container {
+.sidenav-container {
     position: absolute;
     top: 60px;
     bottom: 0;
@@ -24,4 +24,11 @@
             width: 100%;
         }
     }
+  }
+
+  .start-new-button {
+    position: absolute; 
+    bottom: 40px; 
+    right: 40px; 
+    width: 200px; 
   }
