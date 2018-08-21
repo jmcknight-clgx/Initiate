@@ -44,6 +44,7 @@ export class CharactersComponent {
 
   resetForm(){
     this.characters = [];
+    this.selectedCharacter = undefined;
     this.localStorageService.saveCharacters([] as Character[]);
   }
 
