@@ -6,7 +6,10 @@
 
     <mat-list>
       <mat-list-item *ngFor="let character of getOrderedCharacters(); let i = index" (click)="selectCharacter(character)" [class.selected-character]="character.isSelected">
-        <mat-icon matListIcon *ngIf="!(combatIsInProgress && i == 0)">person</mat-icon>
+        <mat-icon *ngIf="!(combatIsInProgress && i == 0) && (character.characterType == characterTypeSelector.PC || character.characterType == characterTypeSelector.NPC)"
+          matListIcon>face</mat-icon>
+        <mat-icon *ngIf="!(combatIsInProgress && i == 0) && (character.characterType == characterTypeSelector.Monster)"
+          matListIcon>pets</mat-icon>
         <mat-icon matListIcon *ngIf="combatIsInProgress && i == 0" class="current-turn-icon">arrow_right_alt</mat-icon>
         <h3 matLine> {{character.name}} </h3>
         <p matLine>
@@ -32,6 +35,13 @@
       <mat-card-content>
         <form class="character-form">
           <mat-form-field>
+            <mat-select name="characterType" placeholder="Character Type" [(ngModel)]="selectedCharacter.characterType">
+              <mat-option *ngFor="let characterType of characterTypes" [value]="characterType.id">
+                {{characterType.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
             <input matInput class="mat-autosize" type="number" name="initiative" placeholder="Initiative" [(ngModel)]="selectedCharacter.initiative">
           </mat-form-field>
 
@@ -52,8 +62,8 @@
                     <input matLine matInput class="mat-autosize" type="text" name="condition-name" placeholder="Title" [(ngModel)]="newCondition.name">
                   </mat-form-field>
                   <mat-form-field>
-                      <input matInput class="mat-autosize" type="number" name="condition-durationInRounds" placeholder="Rounds" [(ngModel)]="newCondition.durationInRounds">
-                    </mat-form-field>
+                    <input matInput class="mat-autosize" type="number" name="condition-durationInRounds" placeholder="Rounds" [(ngModel)]="newCondition.durationInRounds">
+                  </mat-form-field>
                   <button id="" mat-button (click)="addCharacterCondition()">
                     <mat-icon matListIcon>add</mat-icon>
                   </button>

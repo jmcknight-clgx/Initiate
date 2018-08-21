@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Character } from '../models/character';
 import { LocalStorageService } from '../services/local-storage.service';
 import { CharacterCondition } from '../models/character-condition';
+import { CharacterType } from '../enums/character-type.enum';
 
 @Component({
   selector: 'characters',
@@ -9,23 +10,28 @@ import { CharacterCondition } from '../models/character-condition';
   styleUrls: ['./characters.component.scss']
 })
 export class CharactersComponent {
-  @Input() combatIsInProgress: boolean; 
+  @Input() combatIsInProgress: boolean;
 
   characters: Character[] = [];
   selectedCharacterRef: Character;
   selectedCharacter: Character;
   newCharacter: Character;
   newCondition: CharacterCondition = new CharacterCondition();
+  characterTypeSelector: any;
+  characterTypes: any[] = [];
 
   constructor(private localStorageService: LocalStorageService) {
     this.characters = this.localStorageService.getCharacters();
     this.selectCharacter(this.characters[0]);
+    this.characterTypeSelector = CharacterType;
+    Object.keys(CharacterType).forEach(key => {
+      if (+key) this.characterTypes.push({ id: key, value: CharacterType[key], enum: +key as CharacterType });
+    });
   }
 
   getOrderedCharacters() {
     let sortedList = this.characters.slice(0);
     sortedList.sort((left, right): number => right.initiative - left.initiative);
-
     return sortedList;
   }
 
@@ -38,7 +44,7 @@ export class CharactersComponent {
     if (character) {
       this.characters.forEach(c => c.isSelected = false);
       character.isSelected = true;
-
+      
       this.selectedCharacterRef = character;
       this.selectedCharacter = JSON.parse(JSON.stringify(character));
     }
@@ -46,10 +52,10 @@ export class CharactersComponent {
 
   saveCharacter() {
     this.selectedCharacterRef.populate(this.selectedCharacter);
-
+    
     if (this.newCharacter) {
       // add character
-      this.localStorageService.addCharacter(this.newCharacter, this.characters);
+      this.localStorageService.addCharacter(this.selectedCharacterRef, this.characters);
       this.newCharacter = undefined;
     } else {
       // save character
