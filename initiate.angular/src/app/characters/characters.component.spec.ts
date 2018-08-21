@@ -123,4 +123,18 @@ describe('CharactersComponent', () => {
     });
   });
 
+
+  describe('resetForm', () => {
+    it('should set character arrays to empty', () => {
+      // arrange
+
+      // act
+      component.resetForm();
+
+      // assert
+      expect(mockLocalStorage.saveCharacters).toHaveBeenCalledWith([] as Character[]);
+      expect(component.characters.length).toBe(0);
+    });
+  });
+
 });
