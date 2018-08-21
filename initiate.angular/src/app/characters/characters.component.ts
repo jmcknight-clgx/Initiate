@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Character } from '../models/character';
 
 @Component({
   selector: 'characters',
@@ -7,18 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CharactersComponent {
 
-  characters: any[] = [];
-  selectedCharacter: any;
+  characters: Character[] = [];
+  selectedCharacter: Character;
 
   constructor() {
     this.characters = [{
       name: 'TEST',
       initiative: 15
-    },
+    } as Character,
     {
       name: 'TEST2',
       initiative: 17
-    }];
+    } as Character];
 
     this.selectedCharacter = this.characters[0];
   }
