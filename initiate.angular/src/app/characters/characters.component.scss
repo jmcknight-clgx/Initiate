@@ -11,8 +11,24 @@
       min-width: 23%;
       #addCharacterButton {
         position: absolute;
+        top: 0;
+        width: 100%;
+      }
+
+      #resetButton {
+        position: absolute; 
         bottom: 0;
         width: 100%;
+      }
+
+      mat-list {
+        margin-top: 40px;
+      }
+
+      .die-button {
+        position: absolute;
+        right: 0;
+        margin-right: 5px;
       }
     }
     
@@ -30,12 +46,7 @@
     }
   }
 
-  .reset-button {
-    position: absolute; 
-    bottom: 40px; 
-    right: 40px; 
-    width: 200px; 
-  }
+  
 
   .selected-character {
     background: #cecece;

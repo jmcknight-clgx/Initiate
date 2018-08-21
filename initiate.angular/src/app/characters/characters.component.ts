@@ -8,10 +8,9 @@ import { LocalStorageService } from '../services/local-storage.service';
   styleUrls: ['./characters.component.scss']
 })
 export class CharactersComponent {
-
   characters: Character[] = [];
+  selectedCharacterRef: Character;
   selectedCharacter: Character;
-  tempCharacter: Character;
   newCharacter: Character;
 
   constructor(private localStorageService: LocalStorageService) {
@@ -33,13 +32,17 @@ export class CharactersComponent {
 
   selectCharacter(character: Character) {
     if (character) {
-      this.selectedCharacter = character;
-      this.tempCharacter = JSON.parse(JSON.stringify(character));//Object.assign(new Character(), character);
+      this.characters.forEach(c => c.isSelected = false);
+      character.isSelected = true;
+      
+      this.selectedCharacterRef = character;
+      this.selectedCharacter = JSON.parse(JSON.stringify(character));
     }
   }
 
   saveCharacter() {
-    this.selectedCharacter.populate(this.tempCharacter);
+    this.selectedCharacterRef.populate(this.selectedCharacter);
+    
     if (this.newCharacter) {
       // add character
       this.localStorageService.addCharacter(this.newCharacter, this.characters);
@@ -52,6 +55,17 @@ export class CharactersComponent {
     this.clearSelectedCharacter();
   }
 
+  removeCharacter(characterIndex: number, character: Character) {
+    let characters = this.getOrderedCharacters();
+    characters.splice(characterIndex, 1);
+    this.characters = characters;
+    this.localStorageService.saveCharacters(characters);
+
+    if (character.isSelected) {
+      this.clearSelectedCharacter();
+    }
+  }
+
   resetForm() {
     this.characters = [];
     this.clearSelectedCharacter();
@@ -59,8 +73,9 @@ export class CharactersComponent {
   }
 
   clearSelectedCharacter() {
+    this.characters.forEach(c => c.isSelected = false);
+    this.selectedCharacterRef = undefined;
     this.selectedCharacter = undefined;
-    this.tempCharacter = undefined;
   }
 
 }

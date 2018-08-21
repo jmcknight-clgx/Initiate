@@ -1,16 +1,22 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav mode="side" opened>
+    <button id="addCharacterButton" mat-button (click)="displayNewCharacterForm()">
+      <mat-icon matListIcon>add</mat-icon> Add Character
+    </button>
+
     <mat-list>
-      <mat-list-item *ngFor="let character of getOrderedCharacters()" (click)="selectCharacter(character)" [class.selected-character]="character == selectedCharacter">
+      <mat-list-item *ngFor="let character of getOrderedCharacters(); let i = index" (click)="selectCharacter(character)" [class.selected-character]="character == selectedCharacter">
         <mat-icon matListIcon>person</mat-icon>
         <h3 matLine> {{character.name}} </h3>
         <p matLine>
           <span> {{character.initiative}} </span>
         </p>
+        <button class="die-button" mat-icon-button (click)="removeCharacter(i, character)"><mat-icon>close</mat-icon></button>
       </mat-list-item>
     </mat-list>
-    <button id="addCharacterButton" mat-button (click)="displayNewCharacterForm()"> 
-      <mat-icon matListIcon>add</mat-icon> Add Character
+
+    <button id="resetButton" mat-button (click)="resetForm()">
+      <mat-icon matListIcon>refresh</mat-icon> Reset
     </button>
   </mat-sidenav>
 
@@ -18,17 +24,17 @@
     <mat-card *ngIf="selectedCharacter">
       <mat-card-title>
         <mat-form-field class="full-width">
-          <input matInput placeholder="Name" [(ngModel)]="tempCharacter.name">
+          <input matInput placeholder="Name" [(ngModel)]="selectedCharacter.name">
         </mat-form-field>
       </mat-card-title>
       <mat-card-content>
         <form class="character-form">
           <mat-form-field>
-            <input matInput class="mat-autosize" type="number" name="initiative" placeholder="Initiative" [(ngModel)]="tempCharacter.initiative">
+            <input matInput class="mat-autosize" type="number" name="initiative" placeholder="Initiative" [(ngModel)]="selectedCharacter.initiative">
           </mat-form-field>
-          
+
           <mat-form-field>
-            <input matInput class="mat-autosize" type="number" name="ac" placeholder="AC" [(ngModel)]="tempCharacter.ac">
+            <input matInput class="mat-autosize" type="number" name="ac" placeholder="AC" [(ngModel)]="selectedCharacter.ac">
           </mat-form-field>
           <!-- <mat-form-field class="example-full-width">
             <textarea matInput placeholder="Leave a comment"></textarea>
@@ -39,9 +45,6 @@
         <button mat-button (click)="saveCharacter()">Save</button>
       </mat-card-actions>
     </mat-card>
-    <button id="resetButton" class="reset-button" mat-button (click)="resetForm()"> 
-      <mat-icon matListIcon>refresh</mat-icon> Reset
-    </button>
+
   </mat-sidenav-content>
 </mat-sidenav-container>
-

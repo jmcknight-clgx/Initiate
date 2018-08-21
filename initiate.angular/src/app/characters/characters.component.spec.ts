@@ -77,13 +77,13 @@ describe('CharactersComponent', () => {
   describe('displayNewCharacterForm', () => {
     it('should assign a value to selectedCharacter', () => {
       // arrange
-      component.selectedCharacter = undefined;
+      component.selectedCharacterRef = undefined;
 
       // act
       component.displayNewCharacterForm();
 
       // assert
-      expect(component.selectedCharacter).toBeTruthy();
+      expect(component.selectedCharacterRef).toBeTruthy();
     });
   });
 
@@ -96,7 +96,7 @@ describe('CharactersComponent', () => {
         name: "Sir Butts",
         statuses: [] as Status[],
       } as Character);
-      component.selectedCharacter = character;
+      component.selectedCharacterRef = character;
       component.newCharacter = character;
 
       // act
@@ -107,14 +107,14 @@ describe('CharactersComponent', () => {
     });
 
     it('should set newCharacter to undefined', () => {
-       // arrange
-       let character = Object.assign(new Character(), {
+      // arrange
+      let character = Object.assign(new Character(), {
         ac: 16,
         initiative: 12,
         name: "Sir Butts",
         statuses: [] as Status[],
       } as Character);
-      component.selectedCharacter = character;
+      component.selectedCharacterRef = character;
       component.newCharacter = character;
 
       // act
@@ -124,7 +124,6 @@ describe('CharactersComponent', () => {
       expect(component.newCharacter).toBeFalsy();
     });
   });
-
 
   describe('resetForm', () => {
     it('should set character arrays to empty', () => {
@@ -136,9 +135,72 @@ describe('CharactersComponent', () => {
       // assert
       expect(mockLocalStorage.saveCharacters).toHaveBeenCalledWith([] as Character[]);
       expect(component.characters.length).toBe(0);
+      expect(component.selectedCharacterRef).toBe(undefined);
       expect(component.selectedCharacter).toBe(undefined);
-      expect(component.tempCharacter).toBe(undefined);
     });
   });
+
+  describe('removeCharacter', () => {
+    it('removes character', () => {
+      let character = Object.assign(new Character(), {
+        ac: 16,
+        initiative: 12,
+        name: "Sir Butts",
+        statuses: [] as Status[],
+        isSelected: false
+      } as Character);
+      component.characters = [character];
+
+      // act
+      component.removeCharacter(0, character);
+
+      // assert
+      expect(component.characters.length).toBe(0);
+    });
+
+    it('if character was selected, clearSelectedCharacter', () => {
+      let character = Object.assign(new Character(), {
+        ac: 16,
+        initiative: 12,
+        name: "Sir Butts",
+        statuses: [] as Status[],
+        isSelected: true
+      } as Character);
+      component.selectedCharacterRef = character;
+      component.selectedCharacter = character;
+      component.characters = [character];
+
+      // act
+      component.removeCharacter(0, character);
+
+      // assert
+      expect(component.selectedCharacterRef).toBe(undefined);
+      expect(component.selectedCharacter).toBe(undefined);
+      expect(component.characters.filter(c => c.isSelected).length).toBe(0);
+    });
+  });
+
+  describe('clearSelectedCharacter', () => {
+    it('if character was selected, clears selected character and refs', () => {
+      let character = Object.assign(new Character(), {
+        ac: 16,
+        initiative: 12,
+        name: "Sir Butts",
+        statuses: [] as Status[],
+        isSelected: true
+      } as Character);
+      component.selectedCharacterRef = character;
+      component.selectedCharacter = character;
+      component.characters = [character];
+
+      // act
+      component.clearSelectedCharacter();
+
+      // assert
+      expect(component.selectedCharacterRef).toBe(undefined);
+      expect(component.selectedCharacter).toBe(undefined);
+      expect(component.characters.filter(c => c.isSelected).length).toBe(0);
+    });
+  })
 
 });
