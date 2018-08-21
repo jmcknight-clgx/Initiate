@@ -48,15 +48,19 @@
             <mat-card-content>
               <mat-list>
                 <mat-list-item>
-                  <h3 matLine> New Condition </h3>
-                  <p matLine>&nbsp;</p>
-                  <input matLine matInput class="mat-autosize" type="text" name="condition-name" placeholder="Name" [(ngModel)]="newCondition">
+                  <mat-form-field>
+                    <input matLine matInput class="mat-autosize" type="text" name="condition-name" placeholder="Title" [(ngModel)]="newCondition.name">
+                  </mat-form-field>
+                  <mat-form-field>
+                      <input matInput class="mat-autosize" type="number" name="condition-durationInRounds" placeholder="Rounds" [(ngModel)]="newCondition.durationInRounds">
+                    </mat-form-field>
                   <button id="" mat-button (click)="addCharacterCondition()">
                     <mat-icon matListIcon>add</mat-icon>
                   </button>
                 </mat-list-item>
                 <mat-list-item *ngFor="let condition of selectedCharacter.conditions; let i = index;">
-                  <p>{{condition.name}}</p>
+                  <h2 matLine>{{condition.name}}</h2>
+                  <p matLine *ngIf="condition.durationInRounds">Rounds: {{condition.durationInRounds}} </p>
                   <button class="die-button" mat-icon-button (click)="removeCharacterCondition(i)"><mat-icon>close</mat-icon></button>
                   <mat-divider></mat-divider>
                 </mat-list-item>

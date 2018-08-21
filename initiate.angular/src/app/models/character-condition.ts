@@ -1,8 +1,7 @@
 import { EndCondition } from "./end-condition";
 
-export class Condition {
+export class CharacterCondition {
     public name: string;
-    public description: string;
     public durationInRounds: number | null;
     public endCondition: EndCondition | null;
 }

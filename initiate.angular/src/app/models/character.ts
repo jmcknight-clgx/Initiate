@@ -1,11 +1,11 @@
-import { Condition } from "./character-condition";
+import { CharacterCondition } from "./character-condition";
 
 export class Character {
     public name: string;
     public initiative: number;
     public ac: number;
     public hp: number;
-    public conditions: Condition[] = [];
+    public conditions: CharacterCondition[] = [];
     public isSelected: boolean;
 
     populate(character: Character) {

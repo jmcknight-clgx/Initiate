@@ -7,7 +7,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSidenavModule, MatIconModule, MatListModule, MatCardModule, MatInputModule, MatButtonModule, MatToolbarModule } from '@angular/material';
-import { Condition } from '../models/character-condition';
+import { CharacterCondition } from '../models/character-condition';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('CharactersComponent', () => {
@@ -21,7 +21,7 @@ describe('CharactersComponent', () => {
       name: "Sir Test",
       initiative: 11,
       ac: 15,
-      conditions: [] as Condition[],
+      conditions: [] as CharacterCondition[],
     } as Character] as Character[];
 
     mockLocalStorage = jasmine.createSpyObj('LocalStorageService', ['addCharacter', 'saveCharacters', 'getCharacters']);
@@ -56,13 +56,13 @@ describe('CharactersComponent', () => {
           name: "Sir Test",
           initiative: 11,
           ac: 15,
-          conditions: [] as Condition[],
+          conditions: [] as CharacterCondition[],
         } as Character,
         {
           name: "Sir Testyyyy",
           initiative: 20,
           ac: 1,
-          conditions: [] as Condition[],
+          conditions: [] as CharacterCondition[],
         } as Character
       ] as Character[];
 
@@ -94,7 +94,7 @@ describe('CharactersComponent', () => {
         ac: 16,
         initiative: 12,
         name: "Sir Butts",
-        conditions: [] as Condition[],
+        conditions: [] as CharacterCondition[],
       } as Character);
       component.selectedCharacterRef = character;
       component.newCharacter = character;
@@ -112,7 +112,7 @@ describe('CharactersComponent', () => {
         ac: 16,
         initiative: 12,
         name: "Sir Butts",
-        conditions: [] as Condition[],
+        conditions: [] as CharacterCondition[],
       } as Character);
       component.selectedCharacterRef = character;
       component.newCharacter = character;
@@ -146,7 +146,7 @@ describe('CharactersComponent', () => {
         ac: 16,
         initiative: 12,
         name: "Sir Butts",
-        conditions: [] as Condition[],
+        conditions: [] as CharacterCondition[],
         isSelected: false
       } as Character);
       component.characters = [character];
@@ -163,7 +163,7 @@ describe('CharactersComponent', () => {
         ac: 16,
         initiative: 12,
         name: "Sir Butts",
-        conditions: [] as Condition[],
+        conditions: [] as CharacterCondition[],
         isSelected: true
       } as Character);
       component.selectedCharacterRef = character;
@@ -186,7 +186,7 @@ describe('CharactersComponent', () => {
         ac: 16,
         initiative: 12,
         name: "Sir Butts",
-        conditions: [] as Condition[],
+        conditions: [] as CharacterCondition[],
         isSelected: true
       } as Character);
       component.selectedCharacterRef = character;
@@ -206,12 +206,12 @@ describe('CharactersComponent', () => {
   describe('addCharacterCondition', () => {
     it('should add condition to selectedCharacter', () => {
       // arrange
-      component.newCondition = 'test';
+      component.newCondition = new CharacterCondition();
       let character = Object.assign(new Character(), {
         ac: 16,
         initiative: 12,
         name: "Sir Butts",
-        conditions: [] as Condition[],
+        conditions: [] as CharacterCondition[],
         isSelected: true
       } as Character);
       component.selectedCharacter = character;
@@ -221,6 +221,7 @@ describe('CharactersComponent', () => {
 
       // assert
       expect(component.selectedCharacter.conditions.length).toBe(1);
+      expect(component.newCondition).toBe(new CharacterCondition());
     });
     
     it('does not add condition if newCondition is undefined', () => {
@@ -230,7 +231,7 @@ describe('CharactersComponent', () => {
         ac: 16,
         initiative: 12,
         name: "Sir Butts",
-        conditions: [] as Condition[],
+        conditions: [] as CharacterCondition[],
         isSelected: true
       } as Character);
       component.selectedCharacter = character;
