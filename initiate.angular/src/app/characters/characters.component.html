@@ -5,7 +5,7 @@
     </button>
 
     <mat-list>
-      <mat-list-item *ngFor="let character of getOrderedCharacters(); let i = index" (click)="selectCharacter(character)" [class.selected-character]="character == selectedCharacter">
+      <mat-list-item *ngFor="let character of getOrderedCharacters(); let i = index" (click)="selectCharacter(character)" [class.selected-character]="character.isSelected">
         <mat-icon matListIcon>person</mat-icon>
         <h3 matLine> {{character.name}} </h3>
         <p matLine>
