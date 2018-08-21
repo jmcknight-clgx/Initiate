@@ -1,12 +1,12 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav mode="side" opened>
     <mat-list>
-      <mat-list-item *ngFor="let character of getOrderedCharacters()" (click)="selectedCharacter = character">
-        <mat-icon matListIcon>person</mat-icon>
-        <h3 matLine> {{character.name}} </h3>
-        <p matLine>
-          <span> {{character.initiative}} </span>
-        </p>
+      <mat-list-item *ngFor="let character of getOrderedCharacters()" (click)="selectedCharacter = character" [class.selected-character]="character == selectedCharacter">
+          <mat-icon matListIcon>person</mat-icon>
+          <h3 matLine> {{character.name}} </h3>
+          <p matLine>
+            <span> {{character.initiative}} </span>
+          </p>
       </mat-list-item>
     </mat-list>
     <button id="addCharacterButton" mat-button (click)="displayNewCharacterForm()"> 
