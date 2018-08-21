@@ -1,7 +1,14 @@
 import { CharacterCondition } from "./character-condition";
 import { CharacterType } from "../enums/character-type.enum";
+import { Guid } from "./guid";
 
 export class Character {
+
+    constructor() {
+        this.id = Guid.newGuid();
+    }
+
+    public id: string;
     public name: string;
     public initiative: number;
     public ac: number;

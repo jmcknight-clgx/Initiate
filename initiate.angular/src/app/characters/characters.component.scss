@@ -10,9 +10,14 @@
     mat-sidenav {
       min-width: 23%;
 
-      #addCharacterButton {
+      #nextButton {
         position: absolute;
         top: 0;
+        width: 100%;
+        color: #6770bf;
+      }
+
+      #addCharacterButton {
         width: 100%;
       }
 

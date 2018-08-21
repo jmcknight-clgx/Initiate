@@ -221,7 +221,7 @@ describe('CharactersComponent', () => {
 
       // assert
       expect(component.selectedCharacter.conditions.length).toBe(1);
-      expect(component.newCondition).toBe(new CharacterCondition());
+      expect(component.newCondition).toEqual(new CharacterCondition());
     });
     
     it('does not add condition if newCondition is undefined', () => {
@@ -242,7 +242,78 @@ describe('CharactersComponent', () => {
       // assert
       expect(component.selectedCharacter.conditions.length).toBe(0);
     });
+  });
 
+  describe('next', () => {
+    it('Should update currentTurnId to the next character id', () => {
+      // arrange
+      component.characters = [
+        {
+          name: "Sir Test1",
+          initiative: 11,
+          ac: 15,
+          conditions: [] as CharacterCondition[],
+          id: "blah1",
+        } as Character,
+        {
+          name: "Sir Test2",
+          initiative: 20,
+          ac: 1,
+          conditions: [] as CharacterCondition[],
+          id: "blah2",
+        } as Character,
+        {
+          name: "Sir Test3",
+          initiative: 3,
+          ac: 5,
+          conditions: [] as CharacterCondition[],
+          id: "blah3",
+        } as Character
+      ] as Character[]; 
+
+      component.currentTurnId = "blah2";
+
+      // act
+      component.next();
+
+      // assert
+      expect(component.currentTurnId).toBe("blah1");
+    });
+
+    it('Should update currentTurnId to the next character id when at the end', () => {
+      // arrange
+      component.characters = [
+        {
+          name: "Sir Test1",
+          initiative: 11,
+          ac: 15,
+          conditions: [] as CharacterCondition[],
+          id: "blah1",
+        } as Character,
+        {
+          name: "Sir Test2",
+          initiative: 20,
+          ac: 1,
+          conditions: [] as CharacterCondition[],
+          id: "blah2",
+        } as Character,
+        {
+          name: "Sir Test3",
+          initiative: 3,
+          ac: 5,
+          conditions: [] as CharacterCondition[],
+          id: "blah3",
+        } as Character
+      ] as Character[]; 
+
+      component.currentTurnId = "blah3";
+
+      // act
+      component.next();
+
+      // assert
+      expect(component.currentTurnId).toBe("blah2");
+    });
   });
 
 });

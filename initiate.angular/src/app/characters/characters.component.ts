@@ -19,14 +19,24 @@ export class CharactersComponent {
   newCondition: CharacterCondition = new CharacterCondition();
   characterTypeSelector: any;
   characterTypes: any[] = [];
+  currentTurnId: string;
+
 
   constructor(private localStorageService: LocalStorageService) {
     this.characters = this.localStorageService.getCharacters();
     this.selectCharacter(this.characters[0]);
+    this.currentTurnId = this.getOrderedCharacters()[0].id;
     this.characterTypeSelector = CharacterType;
     Object.keys(CharacterType).forEach(key => {
       if (+key) this.characterTypes.push({ id: key, value: CharacterType[key], enum: +key as CharacterType });
     });
+  }
+
+  ngOnChanges() {
+    // Reset initiative order when combat has ended
+    if(!this.combatIsInProgress) {
+      this.currentTurnId = this.getOrderedCharacters()[0].id;
+    }
   }
 
   getOrderedCharacters() {
@@ -63,6 +73,7 @@ export class CharactersComponent {
     }
 
     this.clearSelectedCharacter();
+    this.currentTurnId = this.getOrderedCharacters()[0].id;
   }
 
   removeCharacter(characterIndex: number, character: Character) {
@@ -97,6 +108,20 @@ export class CharactersComponent {
     this.characters.forEach(c => c.isSelected = false);
     this.selectedCharacterRef = undefined;
     this.selectedCharacter = undefined;
+  }
+
+  next() {
+    let current = this.characters.filter(c => c.id == this.currentTurnId)[0];
+    let currentIndex = this.getOrderedCharacters().indexOf(current);
+    
+    // are we at the end of character list
+    if(currentIndex == this.characters.length - 1) {
+      // start back at the top
+      this.currentTurnId = this.getOrderedCharacters()[0].id
+    } else {
+      // continue to next character in list
+      this.currentTurnId = this.getOrderedCharacters()[currentIndex + 1].id;
+    }
   }
 
 }
