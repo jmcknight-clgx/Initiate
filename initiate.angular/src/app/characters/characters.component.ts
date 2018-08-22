@@ -41,7 +41,7 @@ export class CharactersComponent {
   }
 
   resetCurrentTurnId() {
-    if (this.characters) {
+    if (this.characters.length > 0) {
       this.currentTurnId = this.getOrderedCharacters()[0].id;
       this.selectCharacter(this.characters.find(c => c.id === this.currentTurnId));
     }
