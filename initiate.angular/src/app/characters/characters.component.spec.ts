@@ -219,7 +219,7 @@ describe('CharactersComponent', () => {
       expect(component.selectedCharacter.conditions.length).toBe(1);
       expect(component.newCondition).toEqual(new CharacterCondition());
     });
-    
+
     it('does not add condition if newCondition is undefined', () => {
       // arrange
       component.newCondition = undefined;
@@ -231,10 +231,10 @@ describe('CharactersComponent', () => {
         conditions: [] as CharacterCondition[],
       } as Character);
       component.selectedCharacter = character;
-  
+
       // act
       component.addCharacterCondition();
-  
+
       // assert
       expect(component.selectedCharacter.conditions.length).toBe(0);
     });
@@ -265,7 +265,7 @@ describe('CharactersComponent', () => {
           conditions: [] as CharacterCondition[],
           id: "blah3",
         } as Character
-      ] as Character[]; 
+      ] as Character[];
 
       component.currentTurnId = "blah2";
 
@@ -300,7 +300,7 @@ describe('CharactersComponent', () => {
           conditions: [] as CharacterCondition[],
           id: "blah3",
         } as Character
-      ] as Character[]; 
+      ] as Character[];
 
       component.currentTurnId = "blah3";
 
@@ -337,7 +337,7 @@ describe('CharactersComponent', () => {
           conditions: [] as CharacterCondition[],
           id: "blah3",
         } as Character
-      ] as Character[]; 
+      ] as Character[];
       component.currentTurnId = undefined;
 
       // act
@@ -350,7 +350,7 @@ describe('CharactersComponent', () => {
   });
 
   describe('incrementRound', () => {
-    it ('ups round count', () => {
+    it('ups round count', () => {
       // arrange
       component.round = 1;
 
@@ -361,7 +361,7 @@ describe('CharactersComponent', () => {
       expect(component.round).toBe(2);
     })
 
-    it ('resets currentTurnId', () => {
+    it('resets currentTurnId', () => {
       // arrange
       component.characters = [
         {
@@ -385,7 +385,7 @@ describe('CharactersComponent', () => {
           conditions: [] as CharacterCondition[],
           id: "blah3",
         } as Character
-      ] as Character[]; 
+      ] as Character[];
       component.currentTurnId = 'blah3';
 
       // act
@@ -395,7 +395,7 @@ describe('CharactersComponent', () => {
       expect(component.currentTurnId).toBe('blah2');
     })
 
-    it ('removes conditions with 1 round left', () => {
+    it('removes conditions with 1 round left', () => {
       // arrange
       component.characters = [
         {
@@ -410,7 +410,7 @@ describe('CharactersComponent', () => {
           ] as CharacterCondition[],
           id: "blah1",
         } as Character,
-      ] as Character[]; 
+      ] as Character[];
 
       // act
       component.incrementRound();
@@ -419,7 +419,7 @@ describe('CharactersComponent', () => {
       expect(component.characters[0].conditions.length).toBe(0);
     })
 
-    it ('decrements rounds for conditions with more than 1 round left', () => {
+    it('decrements rounds for conditions with more than 1 round left', () => {
       // arrange
       component.characters = [
         {
@@ -442,7 +442,7 @@ describe('CharactersComponent', () => {
           ] as CharacterCondition[],
           id: "blah1",
         } as Character,
-      ] as Character[]; 
+      ] as Character[];
 
       // act
       component.incrementRound();
@@ -451,5 +451,83 @@ describe('CharactersComponent', () => {
       expect(component.characters[0].conditions[0].durationInRounds).toBe(2);
       expect(component.characters[0].conditions[1].durationInRounds).toBe(1);
     })
-  })
+  });
+
+  describe('setInitialHp', () => {
+    it('should set selectedCharacter currentHp to maxHp when currentHp is undefined', () => {
+      // act
+      component.selectedCharacter = new Character();
+      component.selectedCharacter.maxHp = 40;
+
+      // arrange
+      component.setInitialHp();
+
+      // assert
+      expect(component.selectedCharacter.currentHp).toBe(component.selectedCharacter.maxHp);
+    });
+
+    it('should set not set selectedCharacter currentHp to maxHp when currentHp has value', () => {
+      // act
+      component.selectedCharacter = new Character();
+      component.selectedCharacter.currentHp = 30;
+      component.selectedCharacter.maxHp = 40;
+
+      // arrange
+      component.setInitialHp();
+
+      // assert
+      expect(component.selectedCharacter.currentHp).not.toBe(component.selectedCharacter.maxHp);
+    });
+  });
+
+  describe('modifyHp', () => {
+    it('should increase selectedCharacter currentHp by hpDelta when argument true', () => {
+      // arrange
+      component.selectedCharacter = new Character();
+      let initialHp: number = 30;
+      let delta: number = 5;
+      component.selectedCharacter.currentHp = initialHp;
+      component.selectedCharacter.maxHp = 40;
+      component.hpDelta = delta;
+
+      // act
+      component.modifyHp(true);
+
+      // assert 
+      expect(component.selectedCharacter.currentHp).toBe(initialHp + delta)
+      expect(component.hpDelta).toBe(undefined);
+    });
+    it('should decrease selectedCharacter currentHp by hpDelta when argument false', () => {
+      // arrange
+      component.selectedCharacter = new Character();
+      let initialHp: number = 30;
+      let delta: number = 5;
+      component.selectedCharacter.currentHp = initialHp;
+      component.selectedCharacter.maxHp = 40;
+      component.hpDelta = delta;
+      
+      // act
+      component.modifyHp(false);
+      
+      // assert 
+      expect(component.selectedCharacter.currentHp).toBe(initialHp - delta)
+      expect(component.hpDelta).toBe(undefined);
+    });
+    it('should set selectedCharacter currentHp to max currentHp increases past max', () => {
+      // arrange
+      component.selectedCharacter = new Character();
+      let initialHp: number = 30;
+      let delta: number = 15;
+      component.selectedCharacter.currentHp = initialHp;
+      component.selectedCharacter.maxHp = 40;
+      component.hpDelta = delta;
+      
+      // act
+      component.modifyHp(true);
+      
+      // assert 
+      expect(component.selectedCharacter.currentHp).toBe(component.selectedCharacter.maxHp)
+      expect(component.hpDelta).toBe(undefined);
+    });
+  });
 });

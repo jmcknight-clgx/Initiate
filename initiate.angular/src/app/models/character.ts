@@ -12,7 +12,8 @@ export class Character {
     public name: string;
     public initiative: number;
     public ac: number;
-    public hp: number;
+    public currentHp: number;
+    public maxHp: number;
     public conditions: CharacterCondition[] = [];
     public characterType: CharacterType = CharacterType.Monster;
 
@@ -21,7 +22,8 @@ export class Character {
         this.name = character.name;
         this.initiative = character.initiative;
         this.ac = character.ac;
-        this.hp = character.hp;
+        this.currentHp = character.currentHp;
+        this.maxHp = character.maxHp;
         this.characterType = character.characterType;
         this.conditions = character.conditions;
     }

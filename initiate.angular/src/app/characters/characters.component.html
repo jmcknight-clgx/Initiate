@@ -45,24 +45,47 @@
       </mat-card-title>
       <mat-card-content>
         <form class="character-form">
-          <mat-form-field>
+          <mat-form-field class="character-field">
             <mat-select name="characterType" placeholder="Character Type" [(ngModel)]="selectedCharacter.characterType">
               <mat-option *ngFor="let characterType of characterTypes" [value]="characterType.id">
                 {{characterType.value}}
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-form-field>
+
+          <mat-form-field class="character-field">
             <input matInput class="mat-autosize" type="number" name="initiative" placeholder="Initiative" [(ngModel)]="selectedCharacter.initiative">
           </mat-form-field>
 
-          <mat-form-field>
+          <mat-form-field class="character-field">
             <input matInput class="mat-autosize" type="number" name="ac" placeholder="AC" [(ngModel)]="selectedCharacter.ac">
           </mat-form-field>
 
-          <mat-form-field>
-            <input matInput class="mat-autosize" type="number" name="hp" placeholder="HP" [(ngModel)]="selectedCharacter.hp">
+          <mat-form-field class="hp" style="margin-left: 2rem;">
+            <input matInput class="mat-autosize" type="number" name="hp" placeholder="HP" [(ngModel)]="selectedCharacter.currentHp">
           </mat-form-field>
+          <span class="hp-slash"> / </span>
+          <mat-form-field class="hp">
+            <input matInput class="mat-autosize" type="number" name="max-hp" placeholder="Max" [(ngModel)]="selectedCharacter.maxHp"
+              (blur)="setInitialHp()">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" id="hpChanger">
+            <mat-label>&#177;</mat-label>
+            <input name="hpDelta" matInput type="number" [(ngModel)]="hpDelta">
+            <mat-icon matSuffix>favorite_border</mat-icon>
+            <mat-hint>Heal / Harm</mat-hint>
+          </mat-form-field>
+
+          <button mat-icon-button color="primary" (click)="modifyHp(true)">
+            <mat-icon>add</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="modifyHp(false)">
+            <mat-icon>remove</mat-icon>
+          </button>
+
+
+
 
           <mat-card>
             <mat-card-subtitle>Character Conditions</mat-card-subtitle>

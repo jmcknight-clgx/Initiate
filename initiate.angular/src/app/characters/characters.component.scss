@@ -39,6 +39,31 @@
         .full-width {
             width: 100%;
         }
+
+        .character-field {
+          width: 6em;
+          margin-right: 2rem !important;
+        }
+
+        .hp {
+          width: 2.5rem;
+          margin-right: 0 !important;
+        }
+
+        .hp-slash {
+          font-size: 36px;
+          margin-left: .5rem;
+          margin-right: .5rem;
+        }
+
+        #hpChanger {
+          margin-left: 1rem;
+          width: 6rem;
+        }
+
+        .hp-changer-button {
+          // width: 2rem;
+        }
     }
   }
 

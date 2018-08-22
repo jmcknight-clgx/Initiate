@@ -22,6 +22,7 @@ export class CharactersComponent {
   characterTypes: any[] = [];
   currentTurnId: string;
   round: number;
+  hpDelta: number;
 
   constructor(private localStorageService: LocalStorageService) {
     this.characters = this.localStorageService.getCharacters();
@@ -152,6 +153,17 @@ export class CharactersComponent {
 
     // save characters
     this.localStorageService.saveCharacters(this.characters);
+  }
+  
+  setInitialHp() {
+    if (!this.selectedCharacter.currentHp) this.selectedCharacter.currentHp = this.selectedCharacter.maxHp;
+  }
+
+  modifyHp(isAddition: boolean) {
+    if (!isAddition) this.hpDelta *= -1;
+    this.selectedCharacter.currentHp += this.hpDelta;
+    if (this.selectedCharacter.currentHp > this.selectedCharacter.maxHp) this.selectedCharacter.currentHp = this.selectedCharacter.maxHp;
+    this.hpDelta = undefined;
   }
 
 }
