@@ -25,7 +25,6 @@ export class CharactersComponent {
 
   constructor(private localStorageService: LocalStorageService) {
     this.characters = this.localStorageService.getCharacters();
-    this.selectCharacter(this.characters[0]);
     this.resetCurrentTurnId();
     this.characterTypeSelector = CharacterType;
     Object.keys(CharacterType).forEach(key => {
@@ -35,15 +34,17 @@ export class CharactersComponent {
 
   ngOnChanges() {
     // Reset initiative order when combat has ended
-    if(this.combatIsInProgress) {
+    if (this.combatIsInProgress) {
       this.resetCurrentTurnId();
       this.round = 1;
     }
   }
 
   resetCurrentTurnId() {
-    let orderedCharacters = this.getOrderedCharacters();
-    this.currentTurnId = orderedCharacters.length > 0 ? orderedCharacters[0].id : undefined;
+    if (this.characters) {
+      this.currentTurnId = this.getOrderedCharacters()[0].id;
+      this.selectCharacter(this.characters.find(c => c.id === this.currentTurnId));
+    }
   }
 
   getOrderedCharacters() {
@@ -59,7 +60,7 @@ export class CharactersComponent {
   }
 
   selectCharacter(character: Character) {
-    if (character) {     
+    if (character) {
       this.selectedCharacterRef = character;
       this.selectedCharacter = JSON.parse(JSON.stringify(character));
     }
@@ -67,7 +68,7 @@ export class CharactersComponent {
 
   saveCharacter() {
     this.selectedCharacterRef.populate(this.selectedCharacter);
-    
+
     if (this.newCharacter) {
       // add character
       this.localStorageService.addCharacter(this.selectedCharacterRef, this.characters);
@@ -78,7 +79,6 @@ export class CharactersComponent {
     }
 
     this.clearSelectedCharacter();
-    this.resetCurrentTurnId();
   }
 
   removeCharacter(characterIndex: number, character: Character) {
@@ -118,16 +118,40 @@ export class CharactersComponent {
   next() {
     let current = this.characters.filter(c => c.id == this.currentTurnId)[0];
     let currentIndex = this.getOrderedCharacters().indexOf(current);
-    
+
     // are we at the end of character list
-    if(currentIndex == this.characters.length - 1) {
+    if (currentIndex == this.characters.length - 1) {
       // start back at the top
-      this.resetCurrentTurnId();
-      this.round++;
+      this.incrementRound();
     } else {
       // continue to next character in list
-      this.currentTurnId = this.getOrderedCharacters()[currentIndex + 1].id;
+      let nextCharacter = this.getOrderedCharacters()[currentIndex + 1];
+      this.currentTurnId = nextCharacter.id;
+      this.selectCharacter(nextCharacter);
     }
+  }
+
+  incrementRound() {
+    this.round++;
+
+    // clean up character conditions
+    this.characters.forEach(c => {
+      
+      // remove conditions that have ended based on round count
+      c.conditions = c.conditions.filter(x => x.durationInRounds != 1);
+
+      // reduce rounds left in condition
+      c.conditions.forEach(x => {
+        if (x.durationInRounds) {
+          x.durationInRounds--;
+        }
+      })
+    });
+
+    this.resetCurrentTurnId();
+
+    // save characters
+    this.localStorageService.saveCharacters(this.characters);
   }
 
 }

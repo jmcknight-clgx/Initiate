@@ -11,7 +11,6 @@ describe('CharactersComponent', () => {
   let mockLocalStorage: any;
 
   beforeEach(async(() => {
-
     let characters = [{
       id: '1',
       name: "Sir Test",
@@ -32,7 +31,6 @@ describe('CharactersComponent', () => {
       ],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
-
   }));
 
   beforeEach(() => {
@@ -314,4 +312,144 @@ describe('CharactersComponent', () => {
     });
   });
 
+  describe('resetCurrentTurnId', () => {
+    it('sets and selects currentTurnId', () => {
+      // arrange
+      component.characters = [
+        {
+          name: "Sir Test1",
+          initiative: 11,
+          ac: 15,
+          conditions: [] as CharacterCondition[],
+          id: "blah1",
+        } as Character,
+        {
+          name: "Sir Test2",
+          initiative: 20,
+          ac: 1,
+          conditions: [] as CharacterCondition[],
+          id: "blah2",
+        } as Character,
+        {
+          name: "Sir Test3",
+          initiative: 3,
+          ac: 5,
+          conditions: [] as CharacterCondition[],
+          id: "blah3",
+        } as Character
+      ] as Character[]; 
+      component.currentTurnId = undefined;
+
+      // act
+      component.resetCurrentTurnId();
+
+      // assert
+      expect(component.currentTurnId).toBe('blah2');
+      expect(component.selectedCharacter).toEqual(component.characters[1]);
+    })
+  });
+
+  describe('incrementRound', () => {
+    it ('ups round count', () => {
+      // arrange
+      component.round = 1;
+
+      // act
+      component.incrementRound();
+
+      // assert
+      expect(component.round).toBe(2);
+    })
+
+    it ('resets currentTurnId', () => {
+      // arrange
+      component.characters = [
+        {
+          name: "Sir Test1",
+          initiative: 11,
+          ac: 15,
+          conditions: [] as CharacterCondition[],
+          id: "blah1",
+        } as Character,
+        {
+          name: "Sir Test2",
+          initiative: 20,
+          ac: 1,
+          conditions: [] as CharacterCondition[],
+          id: "blah2",
+        } as Character,
+        {
+          name: "Sir Test3",
+          initiative: 3,
+          ac: 5,
+          conditions: [] as CharacterCondition[],
+          id: "blah3",
+        } as Character
+      ] as Character[]; 
+      component.currentTurnId = 'blah3';
+
+      // act
+      component.incrementRound();
+
+      // assert
+      expect(component.currentTurnId).toBe('blah2');
+    })
+
+    it ('removes conditions with 1 round left', () => {
+      // arrange
+      component.characters = [
+        {
+          name: "Sir Test1",
+          initiative: 11,
+          ac: 15,
+          conditions: [
+            {
+              name: 'test',
+              durationInRounds: 1
+            } as CharacterCondition
+          ] as CharacterCondition[],
+          id: "blah1",
+        } as Character,
+      ] as Character[]; 
+
+      // act
+      component.incrementRound();
+
+      // assert
+      expect(component.characters[0].conditions.length).toBe(0);
+    })
+
+    it ('decrements rounds for conditions with more than 1 round left', () => {
+      // arrange
+      component.characters = [
+        {
+          name: "Sir Test1",
+          initiative: 11,
+          ac: 15,
+          conditions: [
+            {
+              name: 'test',
+              durationInRounds: 1
+            } as CharacterCondition,
+            {
+              name: 'test',
+              durationInRounds: 3
+            } as CharacterCondition,
+            {
+              name: 'test',
+              durationInRounds: 2
+            } as CharacterCondition
+          ] as CharacterCondition[],
+          id: "blah1",
+        } as Character,
+      ] as Character[]; 
+
+      // act
+      component.incrementRound();
+
+      // assert
+      expect(component.characters[0].conditions[0].durationInRounds).toBe(2);
+      expect(component.characters[0].conditions[1].durationInRounds).toBe(1);
+    })
+  })
 });

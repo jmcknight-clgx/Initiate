@@ -4,28 +4,28 @@
       <mat-list-item *ngIf="combatIsInProgress">
         <h3 matLine>Round {{round}}</h3>
         <button class="combat" id="nextButton" mat-button (click)="next()">
-            Next <mat-icon matListIcon class="next-icon">navigate_next</mat-icon>
-          </button>
-      </mat-list-item>
-
-      <mat-list-item *ngFor="let character of getOrderedCharacters(); let i = index" (click)="selectCharacter(character)" [class.selected-character]="character.isSelected">
-        <mat-icon *ngIf="!(combatIsInProgress && currentTurnId == character.id) && (character.characterType == characterTypeSelector.PC || character.characterType == characterTypeSelector.NPC)"
-          matListIcon>face</mat-icon>
-        <mat-icon *ngIf="!(combatIsInProgress && currentTurnId == character.id) && (character.characterType == characterTypeSelector.Monster)"
-          matListIcon>pets</mat-icon>
-        <mat-icon matListIcon *ngIf="combatIsInProgress && currentTurnId == character.id" class="current-turn-icon">arrow_right_alt</mat-icon>
-        <h3 matLine> {{character.name}} </h3>
-        <p matLine>
-          <span> {{character.initiative}} </span>
-        </p>
-        <button class="die-button" mat-icon-button (click)="removeCharacter(i, character)"><mat-icon>close</mat-icon></button>
-        <!-- <mat-divider [inset]="true" *ngIf="!last"></mat-divider> -->
-      </mat-list-item>
-      <mat-list-item>
-        <button id="addCharacterButton" mat-button (click)="displayNewCharacterForm()">
-          <mat-icon matListIcon>add</mat-icon> Add Character
+          Next <mat-icon matListIcon class="next-icon">navigate_next</mat-icon>
         </button>
       </mat-list-item>
+
+      <mat-list-item *ngFor="let character of getOrderedCharacters(); let i = index" (click)="selectCharacter(character)" [class.selected-character]="selectedCharacter && selectedCharacter.id == character.id">
+          <mat-icon *ngIf="!(combatIsInProgress && currentTurnId == character.id) && (character.characterType == characterTypeSelector.PC || character.characterType == characterTypeSelector.NPC)"
+            matListIcon>face</mat-icon>
+          <mat-icon *ngIf="!(combatIsInProgress && currentTurnId == character.id) && (character.characterType == characterTypeSelector.Monster)"
+            matListIcon>pets</mat-icon>
+          <mat-icon matListIcon *ngIf="combatIsInProgress && currentTurnId == character.id" class="current-turn-icon">arrow_right_alt</mat-icon>
+          <h3 matLine> {{character.name}} </h3>
+          <p matLine>
+            <span> {{character.initiative}} </span>
+          </p>
+          <button class="die-button" mat-icon-button (click)="removeCharacter(i, character)"><mat-icon>close</mat-icon></button>
+          <!-- <mat-divider [inset]="true" *ngIf="!last"></mat-divider> -->
+        </mat-list-item>
+        <mat-list-item>
+          <button id="addCharacterButton" mat-button (click)="displayNewCharacterForm()">
+            <mat-icon matListIcon>add</mat-icon> Add Character
+          </button>
+        </mat-list-item>
     </mat-list>
 
     <button id="resetButton" mat-button (click)="resetForm()">
