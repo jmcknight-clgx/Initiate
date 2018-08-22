@@ -14,16 +14,15 @@ export class Character {
     public ac: number;
     public hp: number;
     public conditions: CharacterCondition[] = [];
-    public isSelected: boolean;
     public characterType: CharacterType = CharacterType.Monster;
 
     populate(character: Character) {
+        this.id = character.id;
         this.name = character.name;
         this.initiative = character.initiative;
         this.ac = character.ac;
         this.hp = character.hp;
         this.characterType = character.characterType;
         this.conditions = character.conditions;
-        this.isSelected = false;
     }
 }

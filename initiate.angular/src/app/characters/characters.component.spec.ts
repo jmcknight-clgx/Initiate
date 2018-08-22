@@ -18,6 +18,7 @@ describe('CharactersComponent', () => {
   beforeEach(async(() => {
 
     let characters = [{
+      id: '1',
       name: "Sir Test",
       initiative: 11,
       ac: 15,
@@ -53,12 +54,14 @@ describe('CharactersComponent', () => {
       // arrange 
       component.characters = [
         {
+          id: '1',
           name: "Sir Test",
           initiative: 11,
           ac: 15,
           conditions: [] as CharacterCondition[],
         } as Character,
         {
+          id: '2',
           name: "Sir Testyyyy",
           initiative: 20,
           ac: 1,
@@ -91,6 +94,7 @@ describe('CharactersComponent', () => {
     it('should call localStorageService', () => {
       // arrange
       let character = Object.assign(new Character(), {
+        id: '1',
         ac: 16,
         initiative: 12,
         name: "Sir Butts",
@@ -109,6 +113,7 @@ describe('CharactersComponent', () => {
     it('should set newCharacter to undefined', () => {
       // arrange
       let character = Object.assign(new Character(), {
+        id: '1',
         ac: 16,
         initiative: 12,
         name: "Sir Butts",
@@ -143,11 +148,11 @@ describe('CharactersComponent', () => {
   describe('removeCharacter', () => {
     it('removes character', () => {
       let character = Object.assign(new Character(), {
+        id: '1',
         ac: 16,
         initiative: 12,
         name: "Sir Butts",
         conditions: [] as CharacterCondition[],
-        isSelected: false
       } as Character);
       component.characters = [character];
 
@@ -160,11 +165,11 @@ describe('CharactersComponent', () => {
 
     it('if character was selected, clearSelectedCharacter', () => {
       let character = Object.assign(new Character(), {
+        id: '1',
         ac: 16,
         initiative: 12,
         name: "Sir Butts",
         conditions: [] as CharacterCondition[],
-        isSelected: true
       } as Character);
       component.selectedCharacterRef = character;
       component.selectedCharacter = character;
@@ -176,18 +181,17 @@ describe('CharactersComponent', () => {
       // assert
       expect(component.selectedCharacterRef).toBe(undefined);
       expect(component.selectedCharacter).toBe(undefined);
-      expect(component.characters.filter(c => c.isSelected).length).toBe(0);
     });
   });
 
   describe('clearSelectedCharacter', () => {
     it('if character was selected, clears selected character and refs', () => {
       let character = Object.assign(new Character(), {
+        id: '1',
         ac: 16,
         initiative: 12,
         name: "Sir Butts",
         conditions: [] as CharacterCondition[],
-        isSelected: true
       } as Character);
       component.selectedCharacterRef = character;
       component.selectedCharacter = character;
@@ -199,7 +203,6 @@ describe('CharactersComponent', () => {
       // assert
       expect(component.selectedCharacterRef).toBe(undefined);
       expect(component.selectedCharacter).toBe(undefined);
-      expect(component.characters.filter(c => c.isSelected).length).toBe(0);
     });
   });
 
@@ -208,11 +211,11 @@ describe('CharactersComponent', () => {
       // arrange
       component.newCondition = new CharacterCondition();
       let character = Object.assign(new Character(), {
+        id: '1',
         ac: 16,
         initiative: 12,
         name: "Sir Butts",
         conditions: [] as CharacterCondition[],
-        isSelected: true
       } as Character);
       component.selectedCharacter = character;
 
@@ -228,11 +231,11 @@ describe('CharactersComponent', () => {
       // arrange
       component.newCondition = undefined;
       let character = Object.assign(new Character(), {
+        id: '1',
         ac: 16,
         initiative: 12,
         name: "Sir Butts",
         conditions: [] as CharacterCondition[],
-        isSelected: true
       } as Character);
       component.selectedCharacter = character;
   
