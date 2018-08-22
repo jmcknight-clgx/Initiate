@@ -25,7 +25,7 @@ export class CharactersComponent {
   constructor(private localStorageService: LocalStorageService) {
     this.characters = this.localStorageService.getCharacters();
     this.selectCharacter(this.characters[0]);
-    this.currentTurnId = this.getOrderedCharacters()[0].id;
+    this.resetCurrentTurnId();
     this.characterTypeSelector = CharacterType;
     Object.keys(CharacterType).forEach(key => {
       if (+key) this.characterTypes.push({ id: key, value: CharacterType[key], enum: +key as CharacterType });
@@ -35,11 +35,17 @@ export class CharactersComponent {
   ngOnChanges() {
     // Reset initiative order when combat has ended
     if(!this.combatIsInProgress) {
-      this.currentTurnId = this.getOrderedCharacters()[0].id;
+      this.resetCurrentTurnId();
     }
   }
 
+  resetCurrentTurnId() {
+    let orderedCharacters = this.getOrderedCharacters();
+    this.currentTurnId = orderedCharacters.length > 0 ? orderedCharacters[0].id : undefined;
+  }
+
   getOrderedCharacters() {
+    if (!this.characters) return [];
     let sortedList = this.characters.slice(0);
     sortedList.sort((left, right): number => right.initiative - left.initiative);
     return sortedList;
@@ -73,7 +79,7 @@ export class CharactersComponent {
     }
 
     this.clearSelectedCharacter();
-    this.currentTurnId = this.getOrderedCharacters()[0].id;
+    this.resetCurrentTurnId();
   }
 
   removeCharacter(characterIndex: number, character: Character) {
@@ -117,7 +123,7 @@ export class CharactersComponent {
     // are we at the end of character list
     if(currentIndex == this.characters.length - 1) {
       // start back at the top
-      this.currentTurnId = this.getOrderedCharacters()[0].id
+      this.resetCurrentTurnId();
     } else {
       // continue to next character in list
       this.currentTurnId = this.getOrderedCharacters()[currentIndex + 1].id;

@@ -15,7 +15,7 @@ export class Character {
     public hp: number;
     public conditions: CharacterCondition[] = [];
     public isSelected: boolean;
-    public characterType: CharacterType = CharacterType.Undefined;
+    public characterType: CharacterType = CharacterType.Monster;
 
     populate(character: Character) {
         this.name = character.name;
