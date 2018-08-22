@@ -57,10 +57,7 @@ export class CharactersComponent {
   }
 
   selectCharacter(character: Character) {
-    if (character) {
-      this.characters.forEach(c => c.isSelected = false);
-      character.isSelected = true;
-      
+    if (character) {     
       this.selectedCharacterRef = character;
       this.selectedCharacter = JSON.parse(JSON.stringify(character));
     }
@@ -88,7 +85,7 @@ export class CharactersComponent {
     this.characters = characters;
     this.localStorageService.saveCharacters(characters);
 
-    if (character.isSelected) {
+    if (this.selectedCharacter && character.id === this.selectedCharacter.id) {
       this.clearSelectedCharacter();
     }
   }
@@ -111,7 +108,6 @@ export class CharactersComponent {
   }
 
   clearSelectedCharacter() {
-    this.characters.forEach(c => c.isSelected = false);
     this.selectedCharacterRef = undefined;
     this.selectedCharacter = undefined;
   }
