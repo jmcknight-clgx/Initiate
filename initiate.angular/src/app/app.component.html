@@ -2,4 +2,4 @@
     <span><mat-icon matListIcon>whatshot</mat-icon> Initiate</span>
     <button id="startButton" mat-button color="primary" (click)="toggleCombat()">{{ combatButtonText }}</button>
 </mat-toolbar>
-<characters [combatIsInProgress]="combatIsInProgress"></characters>
+<characters (combatEnded)="toggleCombat()" [combatIsInProgress]="combatIsInProgress"></characters>

@@ -1,12 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CharactersComponent } from './characters.component';
 import { LocalStorageService } from '../services/local-storage.service';
 import { Character } from '../models/character';
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatSidenavModule, MatIconModule, MatListModule, MatCardModule, MatInputModule, MatButtonModule, MatToolbarModule } from '@angular/material';
 import { CharacterCondition } from '../models/character-condition';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Character } from '../models/character';
 import { LocalStorageService } from '../services/local-storage.service';
 import { CharacterCondition } from '../models/character-condition';
@@ -11,6 +11,7 @@ import { CharacterType } from '../enums/character-type.enum';
 })
 export class CharactersComponent {
   @Input() combatIsInProgress: boolean;
+  @Output() combatEnded = new EventEmitter();
 
   characters: Character[] = [];
   selectedCharacterRef: Character;
@@ -20,7 +21,7 @@ export class CharactersComponent {
   characterTypeSelector: any;
   characterTypes: any[] = [];
   currentTurnId: string;
-
+  round: number;
 
   constructor(private localStorageService: LocalStorageService) {
     this.characters = this.localStorageService.getCharacters();
@@ -34,8 +35,9 @@ export class CharactersComponent {
 
   ngOnChanges() {
     // Reset initiative order when combat has ended
-    if(!this.combatIsInProgress) {
+    if(this.combatIsInProgress) {
       this.resetCurrentTurnId();
+      this.round = 1;
     }
   }
 
@@ -105,6 +107,7 @@ export class CharactersComponent {
     this.characters = [];
     this.clearSelectedCharacter();
     this.localStorageService.saveCharacters([] as Character[]);
+    this.combatEnded.emit();
   }
 
   clearSelectedCharacter() {
@@ -120,6 +123,7 @@ export class CharactersComponent {
     if(currentIndex == this.characters.length - 1) {
       // start back at the top
       this.resetCurrentTurnId();
+      this.round++;
     } else {
       // continue to next character in list
       this.currentTurnId = this.getOrderedCharacters()[currentIndex + 1].id;

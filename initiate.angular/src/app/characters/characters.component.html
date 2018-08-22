@@ -1,11 +1,13 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav mode="side" opened>
-
-
     <mat-list>
-      <button id="nextButton" mat-button *ngIf="combatIsInProgress" (click)="next()">
-        Next <mat-icon matListIcon class="next-icon">navigate_next</mat-icon>
-      </button>
+      <mat-list-item *ngIf="combatIsInProgress">
+        <h3 matLine>Round {{round}}</h3>
+        <button class="combat" id="nextButton" mat-button (click)="next()">
+            Next <mat-icon matListIcon class="next-icon">navigate_next</mat-icon>
+          </button>
+      </mat-list-item>
+
       <mat-list-item *ngFor="let character of getOrderedCharacters(); let i = index" (click)="selectCharacter(character)" [class.selected-character]="character.isSelected">
         <mat-icon *ngIf="!(combatIsInProgress && currentTurnId == character.id) && (character.characterType == characterTypeSelector.PC || character.characterType == characterTypeSelector.NPC)"
           matListIcon>face</mat-icon>
