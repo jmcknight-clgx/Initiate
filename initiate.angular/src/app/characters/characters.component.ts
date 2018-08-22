@@ -105,10 +105,10 @@ export class CharactersComponent {
   }
 
   resetForm() {
-    this.characters = [];
+    this.characters = this.characters.filter(c => c.characterType != CharacterType.Monster);
     this.clearSelectedCharacter();
-    this.localStorageService.saveCharacters([] as Character[]);
-    this.combatEnded.emit();
+    this.localStorageService.saveCharacters(this.characters);
+    if (this.combatIsInProgress) this.combatEnded.emit();
   }
 
   clearSelectedCharacter() {

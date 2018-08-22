@@ -4,6 +4,7 @@ import { LocalStorageService } from '../services/local-storage.service';
 import { Character } from '../models/character';
 import { CharacterCondition } from '../models/character-condition';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { CharacterType } from '../enums/character-type.enum';
 
 describe('CharactersComponent', () => {
   let component: CharactersComponent;
@@ -124,15 +125,42 @@ describe('CharactersComponent', () => {
   });
 
   describe('resetForm', () => {
-    it('should set character arrays to empty', () => {
+    it('should set character arrays to only pc and npc characters', () => {
       // arrange
+      component.characters = [
+        {
+          name: "Sir Test1",
+          initiative: 11,
+          ac: 15,
+          conditions: [] as CharacterCondition[],
+          id: "blah1",
+          characterType: CharacterType.Monster
+        } as Character,
+        {
+          name: "Sir Test2",
+          initiative: 20,
+          ac: 1,
+          conditions: [] as CharacterCondition[],
+          id: "blah2",
+          characterType: CharacterType.PC
+        } as Character,
+        {
+          name: "Sir Test3",
+          initiative: 3,
+          ac: 5,
+          conditions: [] as CharacterCondition[],
+          id: "blah3",
+          characterType: CharacterType.NPC
+        } as Character
+      ] as Character[];
 
       // act
       component.resetForm();
 
       // assert
-      expect(mockLocalStorage.saveCharacters).toHaveBeenCalledWith([] as Character[]);
-      expect(component.characters.length).toBe(0);
+      let expectedCharacters = component.characters.filter(c => c.characterType != CharacterType.Monster);
+      expect(mockLocalStorage.saveCharacters).toHaveBeenCalledWith(expectedCharacters);
+      expect(component.characters.length).toBe(2);
       expect(component.selectedCharacterRef).toBe(undefined);
       expect(component.selectedCharacter).toBe(undefined);
     });
