@@ -59,6 +59,9 @@
             <mat-icon matSuffix>security</mat-icon>
           </mat-form-field>
 
+          <button *ngIf="selectedCharacter.characterType == characterTypeSelector.Monster" mat-icon-button color="primary" (click)="clone()">CLONE</button>
+
+
           <br/>
 
           <mat-form-field class="hp character-field indent">

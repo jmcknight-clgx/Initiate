@@ -4,6 +4,7 @@ import { LocalStorageService } from '../services/local-storage.service';
 import { CharacterCondition } from '../models/character-condition';
 import { CharacterType } from '../enums/character-type.enum';
 import { CombatService } from '../services/combat.service';
+import { Guid } from '../models/guid';
 
 @Component({
   selector: 'app-characters',
@@ -198,6 +199,17 @@ export class CharactersComponent {
     if (this.selectedCharacter.characterType == CharacterType.Monster || this.selectedCharacter.characterType == CharacterType.NPC)
       return "Init Mod";
     return "Inititive";
+  }
+
+  clone() {
+    if (this.selectCharacter) {
+      let temp = Object.assign(new Character(), this.selectedCharacter);;
+      temp.conditions = Object.assign([], this.selectedCharacter.conditions)
+      temp.id = Guid.newGuid();
+      temp.d20Roll = Math.floor(Math.random() * 20) + 1;
+      this.characters.push(temp);
+      this.selectCharacter(temp);
+    }
   }
 
 }
