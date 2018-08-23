@@ -1,2 +1,15 @@
 <app-toolbar></app-toolbar>
-<div>conditions</div>
+
+<mat-card class="settings-card">
+    <mat-card-title>
+            Character Conditions
+    </mat-card-title>
+    <mat-card-content>
+        <mat-list>
+            <mat-list-item *ngFor="let condition of characterConditions; let i = index;">
+                {{condition}}
+                <button class="die-button" mat-icon-button (click)="removeCondition(i)"><mat-icon>close</mat-icon></button>
+            </mat-list-item>
+        </mat-list>
+    </mat-card-content>
+</mat-card>

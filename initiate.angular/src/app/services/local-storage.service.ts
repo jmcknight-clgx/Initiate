@@ -38,4 +38,8 @@ export class LocalStorageService {
         return JSON.parse(conditions) as string[];
     }
 
+    saveConditions(conditions: string[]) {
+        window.localStorage.setItem('conditions', JSON.stringify(conditions));
+    }
+
 }

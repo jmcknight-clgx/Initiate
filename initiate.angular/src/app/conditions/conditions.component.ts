@@ -7,13 +7,16 @@ import { LocalStorageService } from '../services/local-storage.service';
   templateUrl: './conditions.component.html',
   styleUrls: ['./conditions.component.scss']
 })
-export class ConditionsComponent implements OnInit {
+export class ConditionsComponent {
   characterConditions: string[];
+
   constructor(private localStorageService: LocalStorageService) { 
     this.characterConditions = this.localStorageService.getConditions();
   }
 
-  ngOnInit() {
+  removeCondition(index: number) {
+    this.characterConditions.splice(index, 1);
+    this.localStorageService.saveConditions(this.characterConditions);
   }
 
 }

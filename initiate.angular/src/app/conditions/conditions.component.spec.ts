@@ -4,19 +4,26 @@ import { ConditionsComponent } from './conditions.component';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
 import { MatIconModule, MatToolbarModule } from '@angular/material';
 import { Router } from '@angular/router';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { LocalStorageService } from '../services/local-storage.service';
 
 describe('ConditionsComponent', () => {
   let component: ConditionsComponent;
   let fixture: ComponentFixture<ConditionsComponent>;
   let mockRouter;
+  let mockLocalStorage;
   beforeEach(async(() => {
     mockRouter = jasmine.createSpyObj("Router", ["navigate"]);
+    mockLocalStorage = jasmine.createSpyObj('LocalStorageService', ['getConditions', 'saveConditions']);
+    mockLocalStorage.getConditions.and.returnValue([]);
     TestBed.configureTestingModule({
       declarations: [ ConditionsComponent, ToolbarComponent ],
       imports: [MatIconModule, MatToolbarModule],
       providers: [
         { provide: Router, useValue: mockRouter },
+        { provide: LocalStorageService, useValue: mockLocalStorage },
       ],
+      schemas: [NO_ERRORS_SCHEMA],
     })
     .compileComponents();
   }));
@@ -29,5 +36,29 @@ describe('ConditionsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('removeCondition', () => {
+    it('should remove condition from conditions list', () => {
+      // arrange
+      component.characterConditions = ['inspiration'];
+
+      // act 
+      component.removeCondition(0);
+
+      // assert
+      expect(component.characterConditions.length).toBe(0);
+    });
+
+    it('should update local storage', () => {
+      // arrange
+      component.characterConditions = ['inspiration'];
+
+      // act 
+      component.removeCondition(0);
+
+      // assert
+      expect(mockLocalStorage.saveConditions).toHaveBeenCalled();
+    });
   });
 });
