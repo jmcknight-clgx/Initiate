@@ -60,7 +60,7 @@ export class CharactersComponent {
   getOrderedCharacters() {
     if (!this.characters) return [];
     let sortedList = this.characters.slice(0);
-    sortedList.sort((left, right): number => right.initiative - left.initiative);
+    sortedList.sort((left, right): number => right.getInit() - left.getInit());
     return sortedList;
   }
 
@@ -185,6 +185,12 @@ export class CharactersComponent {
     this.selectedCharacter.currentHp += this.hpDelta;
     if (this.selectedCharacter.currentHp > this.selectedCharacter.maxHp) this.selectedCharacter.currentHp = this.selectedCharacter.maxHp;
     this.hpDelta = undefined;
+  }
+
+  getInitLabel() {
+    if (this.selectedCharacter.characterType == CharacterType.Monster || this.selectedCharacter.characterType == CharacterType.NPC)
+      return "Init Mod";
+    return "Inititive";
   }
 
 }

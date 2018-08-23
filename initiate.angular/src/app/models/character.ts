@@ -6,6 +6,8 @@ export class Character {
 
     constructor() {
         this.id = Guid.newGuid();
+        this.d20Roll = Math.floor(Math.random() * 20) + 1;
+        this.characterType == CharacterType.PC;
     }
 
     public id: string;
@@ -16,6 +18,7 @@ export class Character {
     public maxHp: number;
     public conditions: CharacterCondition[] = [];
     public characterType: CharacterType;
+    public d20Roll: number;
 
     populate(character: Character) {
         this.id = character.id;
@@ -29,7 +32,14 @@ export class Character {
     }
 
     getCharacterTypeIcon() {
-        if(this.characterType == CharacterType.Monster) return 'pets';
+        if (this.characterType == CharacterType.Monster) return 'pets';
         return 'face';
+    }
+
+    getInit() {
+        if (this.characterType == CharacterType.PC)
+            return this.initiative;
+        else
+            return this.d20Roll + this.initiative;
     }
 }
