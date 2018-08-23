@@ -1,7 +1,7 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav mode="side" opened>
     <mat-list>
-      <mat-list-item *ngIf="combatIsInProgress">
+      <mat-list-item *ngIf="isCombatInProgress()">
         <h3 matLine>Round {{round}}</h3>
         <button class="combat" id="nextButton" mat-button (click)="next()">
           Next <mat-icon matListIcon class="next-icon">navigate_next</mat-icon>
@@ -9,8 +9,8 @@
       </mat-list-item>
 
       <mat-list-item *ngFor="let character of getOrderedCharacters(); let i = index" (click)="selectCharacter(character)" [class.selected-character]="selectedCharacter && selectedCharacter.id == character.id">
-        <mat-icon *ngIf="!(combatIsInProgress && currentTurnId == character.id)" matListIcon>{{character.getCharacterTypeIcon()}}</mat-icon>
-        <mat-icon matListIcon *ngIf="combatIsInProgress && currentTurnId == character.id" class="current-turn-icon">arrow_right_alt</mat-icon>
+        <mat-icon *ngIf="!(isCombatInProgress() && currentTurnId == character.id)" matListIcon>{{character.getCharacterTypeIcon()}}</mat-icon>
+        <mat-icon matListIcon *ngIf="isCombatInProgress() && currentTurnId == character.id" class="current-turn-icon">arrow_right_alt</mat-icon>
         <h3 matLine> {{character.name}} </h3>
         <p matLine class="character-detail" *ngIf="character.ac">
           <span><mat-icon matSuffix color="primary">security</mat-icon>{{character.ac}}</span>

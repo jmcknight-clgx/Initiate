@@ -1,11 +1,12 @@
 import { Routes, RouterModule } from '@angular/router';
 import { CharactersComponent } from './characters/characters.component';
 import { ConditionsComponent } from './conditions/conditions.component';
+import { HomeComponent } from './home/home.component';
 const routes: Routes = [
 	{
 		path: '',
 		children: [
-			{ path: '', component: CharactersComponent },  // default page
+			{ path: '', component: HomeComponent },  // default page
 			{ path: 'conditions', component: ConditionsComponent },
 			
 		],

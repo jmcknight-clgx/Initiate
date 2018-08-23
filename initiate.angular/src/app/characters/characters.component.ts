@@ -3,15 +3,14 @@ import { Character } from '../models/character';
 import { LocalStorageService } from '../services/local-storage.service';
 import { CharacterCondition } from '../models/character-condition';
 import { CharacterType } from '../enums/character-type.enum';
+import { CombatService } from '../services/combat.service';
 
 @Component({
-  selector: 'characters',
+  selector: 'app-characters',
   templateUrl: './characters.component.html',
   styleUrls: ['./characters.component.scss']
 })
 export class CharactersComponent {
-  @Input() combatIsInProgress: boolean;
-  @Output() combatEnded = new EventEmitter();
 
   characters: Character[] = [];
   selectedCharacterRef: Character;
@@ -27,7 +26,7 @@ export class CharactersComponent {
   round: number;
   hpDelta: number;
 
-  constructor(private localStorageService: LocalStorageService) {
+  constructor(private localStorageService: LocalStorageService, private combatService: CombatService) {
     this.characters = this.localStorageService.getCharacters();
     this.refreshCharacterConditions();
     this.resetCurrentTurnId();
@@ -39,10 +38,14 @@ export class CharactersComponent {
 
   ngOnChanges() {
     // Reset initiative order when combat has ended
-    if (this.combatIsInProgress) {
+    if (this.combatService.isCombatInProgress()) {
       this.resetCurrentTurnId();
       this.round = 1;
     }
+  }
+
+  isCombatInProgress() {
+    return this.combatService.isCombatInProgress();
   }
 
   refreshCharacterConditions() {
@@ -129,7 +132,7 @@ export class CharactersComponent {
     this.characters = this.characters.filter(c => c.characterType != CharacterType.Monster);
     this.clearSelectedCharacter();
     this.localStorageService.saveCharacters(this.characters);
-    if (this.combatIsInProgress) this.combatEnded.emit();
+    if (this.combatService.isCombatInProgress()) this.combatService.toggleCombat();
   }
 
   clearSelectedCharacter() {

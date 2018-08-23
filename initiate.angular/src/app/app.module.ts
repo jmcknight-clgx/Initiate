@@ -9,12 +9,17 @@ import { CharactersComponent } from './characters/characters.component';
 import { LocalStorageService } from './services/local-storage.service';
 import { ConditionsComponent } from './conditions/conditions.component';
 import { routing } from 'src/app/app.routes';
+import { HomeComponent } from './home/home.component';
+import { ToolbarComponent } from './toolbar/toolbar.component';
+import { CombatService } from './services/combat.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     CharactersComponent,
-    ConditionsComponent
+    ConditionsComponent,
+    HomeComponent,
+    ToolbarComponent
   ],
   imports: [
     routing,
@@ -31,7 +36,7 @@ import { routing } from 'src/app/app.routes';
     MatToolbarModule,
     MatSelectModule,
   ],
-  providers: [LocalStorageService],
+  providers: [LocalStorageService, CombatService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
