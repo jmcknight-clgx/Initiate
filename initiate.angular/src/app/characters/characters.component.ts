@@ -63,7 +63,7 @@ export class CharactersComponent {
   selectCharacter(character: Character) {
     if (character) {
       this.selectedCharacterRef = character;
-      this.selectedCharacter = JSON.parse(JSON.stringify(character));
+      this.selectedCharacter = Object.assign(new Character(), character);
     }
   }
 

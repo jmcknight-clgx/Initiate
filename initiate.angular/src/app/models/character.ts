@@ -15,7 +15,7 @@ export class Character {
     public currentHp: number;
     public maxHp: number;
     public conditions: CharacterCondition[] = [];
-    public characterType: CharacterType = CharacterType.Monster;
+    public characterType: CharacterType;
 
     populate(character: Character) {
         this.id = character.id;
@@ -26,5 +26,10 @@ export class Character {
         this.maxHp = character.maxHp;
         this.characterType = character.characterType;
         this.conditions = character.conditions;
+    }
+
+    getCharacterTypeIcon() {
+        if(this.characterType == CharacterType.Monster) return 'pets';
+        return 'face';
     }
 }

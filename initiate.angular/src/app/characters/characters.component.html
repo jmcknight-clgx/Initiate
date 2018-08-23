@@ -9,14 +9,11 @@
       </mat-list-item>
 
       <mat-list-item *ngFor="let character of getOrderedCharacters(); let i = index" (click)="selectCharacter(character)" [class.selected-character]="selectedCharacter && selectedCharacter.id == character.id">
-        <mat-icon *ngIf="!(combatIsInProgress && currentTurnId == character.id) && (character.characterType == characterTypeSelector.PC || character.characterType == characterTypeSelector.NPC)"
-          matListIcon>face</mat-icon>
-        <mat-icon *ngIf="!(combatIsInProgress && currentTurnId == character.id) && (character.characterType == characterTypeSelector.Monster)"
-          matListIcon>pets</mat-icon>
+        <mat-icon *ngIf="!(combatIsInProgress && currentTurnId == character.id)" matListIcon>{{character.getCharacterTypeIcon()}}</mat-icon>
         <mat-icon matListIcon *ngIf="combatIsInProgress && currentTurnId == character.id" class="current-turn-icon">arrow_right_alt</mat-icon>
         <h3 matLine> {{character.name}} </h3>
-        <p matLine>
-          <span><mat-icon matListIcon>security</mat-icon>{{character.ac}}</span>
+        <p matLine *ngIf="character.ac">
+          <mat-icon matSuffix>security</mat-icon> {{character.ac}}
         </p>
         <button class="die-button" mat-icon-button (click)="removeCharacter(i, character)"><mat-icon>close</mat-icon></button>
         <!-- <mat-divider [inset]="true" *ngIf="!last"></mat-divider> -->
@@ -32,8 +29,6 @@
         </button>
       </mat-list-item>
     </mat-list>
-
-
   </mat-sidenav>
 
   <mat-sidenav-content>
@@ -45,23 +40,28 @@
       </mat-card-title>
       <mat-card-content>
         <form class="character-form">
-          <mat-form-field class="character-field">
+          <mat-form-field class="large-character-field indent">
             <mat-select name="characterType" placeholder="Character Type" [(ngModel)]="selectedCharacter.characterType">
               <mat-option *ngFor="let characterType of characterTypes" [value]="characterType.id">
                 {{characterType.value}}
               </mat-option>
             </mat-select>
+            <mat-icon *ngIf="selectedCharacter.characterType" matSuffix>{{selectedCharacter.getCharacterTypeIcon()}}</mat-icon>
           </mat-form-field>
 
           <mat-form-field class="character-field">
             <input matInput class="mat-autosize" type="number" name="initiative" placeholder="Initiative" [(ngModel)]="selectedCharacter.initiative">
+            <mat-icon matSuffix>flash_on</mat-icon>
           </mat-form-field>
 
           <mat-form-field class="character-field">
             <input matInput class="mat-autosize" type="number" name="ac" placeholder="AC" [(ngModel)]="selectedCharacter.ac">
+            <mat-icon matSuffix>security</mat-icon>
           </mat-form-field>
 
-          <mat-form-field class="hp" style="margin-left: 2rem;">
+          <br/>
+
+          <mat-form-field class="hp character-field indent">
             <input matInput class="mat-autosize" type="number" name="hp" placeholder="HP" [(ngModel)]="selectedCharacter.currentHp">
           </mat-form-field>
           <span class="hp-slash"> / </span>
@@ -83,9 +83,6 @@
           <button mat-icon-button color="warn" (click)="modifyHp(false)">
             <mat-icon>remove</mat-icon>
           </button>
-
-
-
 
           <mat-card>
             <mat-card-subtitle>Character Conditions</mat-card-subtitle>
@@ -114,7 +111,7 @@
         </form>
       </mat-card-content>
       <mat-card-actions>
-        <button id="saveButton" mat-button (click)="saveCharacter()">Save</button>
+        <button mat-button (click)="saveCharacter()">SAVE</button>
       </mat-card-actions>
     </mat-card>
 
