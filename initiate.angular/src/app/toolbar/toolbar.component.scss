@@ -5,9 +5,17 @@ mat-toolbar {
     right: 0;
     height: 60px;
   }
-  
+
   #startButton {
     position: absolute;
     right: 0;
+    margin-right: 120px;
+    margin-bottom: 5px;
+  }
+
+  .toolbar-button {
+    position: absolute;
+    right: 0;
     margin-right: 10px;
+    margin-bottom: 5px;
   }

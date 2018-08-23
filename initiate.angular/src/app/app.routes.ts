@@ -6,7 +6,8 @@ const routes: Routes = [
 	{
 		path: '',
 		children: [
-			{ path: '', component: HomeComponent },  // default page
+			{ path: '', component: HomeComponent },  // default page,
+			{ path: 'home', component: HomeComponent },
 			{ path: 'conditions', component: ConditionsComponent },
 			
 		],

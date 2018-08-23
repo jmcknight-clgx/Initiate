@@ -8,8 +8,8 @@ import { CombatService } from '../services/combat.service';
   styleUrls: ['./toolbar.component.scss']
 })
 export class ToolbarComponent {
-
-  constructor(private router: Router, private combatService: CombatService) {}
+  constructor(private router: Router, private combatService: CombatService) {
+  }
 
   toggleCombat() {
     this.combatService.toggleCombat();
@@ -21,6 +21,15 @@ export class ToolbarComponent {
 
   navigateToConditions() {
     this.router.navigate(['/conditions']);
+  }
+
+  navigateToHome() {
+    this.router.navigate(['/home']);
+  }
+
+  showToolbarButtons() {
+    if (this.router.url.indexOf("conditions") >= 0) return false;
+    return true; 
   }
 
 }
