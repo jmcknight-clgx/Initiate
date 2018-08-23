@@ -17,7 +17,10 @@ export class CharactersComponent {
   selectedCharacterRef: Character;
   selectedCharacter: Character;
   newCharacter: Character;
-  newCondition: CharacterCondition = new CharacterCondition();
+  newCondition: string;
+  conditionRoundDuration: number;
+  selectedCondition: string;
+  characterConditions: string[];
   characterTypeSelector: any;
   characterTypes: any[] = [];
   currentTurnId: string;
@@ -26,6 +29,7 @@ export class CharactersComponent {
 
   constructor(private localStorageService: LocalStorageService) {
     this.characters = this.localStorageService.getCharacters();
+    this.refreshCharacterConditions();
     this.resetCurrentTurnId();
     this.characterTypeSelector = CharacterType;
     Object.keys(CharacterType).forEach(key => {
@@ -39,6 +43,11 @@ export class CharactersComponent {
       this.resetCurrentTurnId();
       this.round = 1;
     }
+  }
+
+  refreshCharacterConditions() {
+    this.characterConditions = this.localStorageService.getConditions();
+    this.characterConditions.push('Other');
   }
 
   resetCurrentTurnId() {
@@ -94,9 +103,21 @@ export class CharactersComponent {
   }
 
   addCharacterCondition() {
+
+    let condition = new CharacterCondition();
+    condition.durationInRounds = this.conditionRoundDuration;
+
     if (this.newCondition) {
-      this.selectedCharacter.conditions.push(this.newCondition);
-      this.newCondition = new CharacterCondition();
+      condition.name = this.newCondition;
+      this.selectedCharacter.conditions.push(condition);
+      this.localStorageService.addCondition(condition.name);
+      this.newCondition = undefined;
+      this.refreshCharacterConditions();
+    } else if (this.selectedCondition) {
+      if (this.selectedCondition != 'Other') {
+        condition.name = this.selectedCondition;
+        this.selectedCharacter.conditions.push(condition);
+      }
     }
   }
 
@@ -137,7 +158,7 @@ export class CharactersComponent {
 
     // clean up character conditions
     this.characters.forEach(c => {
-      
+
       // remove conditions that have ended based on round count
       c.conditions = c.conditions.filter(x => x.durationInRounds != 1);
 
@@ -154,7 +175,7 @@ export class CharactersComponent {
     // save characters
     this.localStorageService.saveCharacters(this.characters);
   }
-  
+
   setInitialHp() {
     if (!this.selectedCharacter.currentHp) this.selectedCharacter.currentHp = this.selectedCharacter.maxHp;
   }

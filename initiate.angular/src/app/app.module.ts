@@ -7,13 +7,17 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AppComponent } from './app.component';
 import { CharactersComponent } from './characters/characters.component';
 import { LocalStorageService } from './services/local-storage.service';
+import { ConditionsComponent } from './conditions/conditions.component';
+import { routing } from 'src/app/app.routes';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CharactersComponent
+    CharactersComponent,
+    ConditionsComponent
   ],
   imports: [
+    routing,
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,

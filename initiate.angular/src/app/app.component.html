@@ -1,5 +1,6 @@
 <mat-toolbar>
     <span><mat-icon matListIcon>whatshot</mat-icon> Initiate</span>
     <button id="startButton" mat-button color="primary" (click)="toggleCombat()">{{ combatButtonText }}</button>
+    <!-- <button id="manageConditionsButton" mat-button (click)="navigateToConditions()">Manage Conditions</button> -->
 </mat-toolbar>
 <characters (combatEnded)="toggleCombat()" [combatIsInProgress]="combatIsInProgress"></characters>

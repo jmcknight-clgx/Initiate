@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Character } from '../models/character';
+import { CharacterCondition } from '../models/character-condition';
 
 @Injectable({
     providedIn: 'root',
@@ -23,6 +24,18 @@ export class LocalStorageService {
         }
 
         return [] as Character[];
+    }
+
+    addCondition(conditionName: string) {
+        let conditions = this.getConditions();
+        conditions.push(conditionName);
+        window.localStorage.setItem('conditions', JSON.stringify(conditions));
+    }
+
+    getConditions(): string[] {
+        let conditions = window.localStorage.getItem('conditions');
+        if (!conditions) return [];
+        return JSON.parse(conditions) as string[];
     }
 
 }

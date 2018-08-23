@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,8 +11,14 @@ export class AppComponent {
   combatIsInProgress: Boolean = false;
   combatButtonText: string = "Start";
 
+  constructor() {}
+
   toggleCombat() {
     this.combatIsInProgress = !this.combatIsInProgress;
     this.combatButtonText = this.combatIsInProgress ? "End" : "Start"; 
+  }
+
+  navigateToConditions() {
+    //this.router.navigate(['/conditions']);
   }
 }

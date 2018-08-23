@@ -20,8 +20,9 @@ describe('CharactersComponent', () => {
       conditions: [] as CharacterCondition[],
     } as Character] as Character[];
 
-    mockLocalStorage = jasmine.createSpyObj('LocalStorageService', ['addCharacter', 'saveCharacters', 'getCharacters']);
-    mockLocalStorage.getCharacters.and.returnValue(characters)
+    mockLocalStorage = jasmine.createSpyObj('LocalStorageService', ['addCharacter', 'saveCharacters', 'getCharacters', 'addCondition', 'getConditions']);
+    mockLocalStorage.getCharacters.and.returnValue(characters);
+    mockLocalStorage.getConditions.and.returnValue([]);
 
     TestBed.configureTestingModule({
       declarations: [
@@ -228,9 +229,9 @@ describe('CharactersComponent', () => {
   });
 
   describe('addCharacterCondition', () => {
-    it('should add condition to selectedCharacter', () => {
+    it('should add new condition to selectedCharacter', () => {
       // arrange
-      component.newCondition = new CharacterCondition();
+      component.newCondition = 'test';
       let character = Object.assign(new Character(), {
         id: '1',
         ac: 16,
@@ -245,7 +246,86 @@ describe('CharactersComponent', () => {
 
       // assert
       expect(component.selectedCharacter.conditions.length).toBe(1);
-      expect(component.newCondition).toEqual(new CharacterCondition());
+      expect(component.newCondition).toEqual(undefined);
+    });
+
+    it('should save new condition', () => {
+      // arrange
+      component.newCondition = 'test';
+      let character = Object.assign(new Character(), {
+        id: '1',
+        ac: 16,
+        initiative: 12,
+        name: "Sir Butts",
+        conditions: [] as CharacterCondition[],
+      } as Character);
+      component.selectedCharacter = character;
+
+      // act
+      component.addCharacterCondition();
+
+      // assert
+      expect(mockLocalStorage.addCondition).toHaveBeenCalledWith('test');
+    });
+
+    it('should add selected condition to selected character', () => {
+      // arrange
+      component.newCondition = undefined;
+      component.selectedCondition = 'test';
+      let character = Object.assign(new Character(), {
+        id: '1',
+        ac: 16,
+        initiative: 12,
+        name: "Sir Butts",
+        conditions: [] as CharacterCondition[],
+      } as Character);
+      component.selectedCharacter = character;
+
+      // act
+      component.addCharacterCondition();
+
+      // assert
+      expect(component.selectedCharacter.conditions.length).toBe(1);
+    });
+
+    it('should not save selected condition', () => {
+      // arrange
+      component.newCondition = undefined;
+      component.selectedCondition = 'test';
+      let character = Object.assign(new Character(), {
+        id: '1',
+        ac: 16,
+        initiative: 12,
+        name: "Sir Butts",
+        conditions: [] as CharacterCondition[],
+      } as Character);
+      component.selectedCharacter = character;
+
+      // act
+      component.addCharacterCondition();
+
+      // assert
+      expect(mockLocalStorage.addCondition).toHaveBeenCalledTimes(0);
+    });
+
+    it('should not add selected condition if is "Other"', () => {
+      // arrange
+      component.newCondition = undefined;
+      component.selectedCondition = 'Other';
+      let character = Object.assign(new Character(), {
+        id: '1',
+        ac: 16,
+        initiative: 12,
+        name: "Sir Butts",
+        conditions: [] as CharacterCondition[],
+      } as Character);
+      component.selectedCharacter = character;
+
+      // act
+      component.addCharacterCondition();
+
+      // assert
+      expect(component.selectedCharacter.conditions.length).toBe(0);
     });
 
     it('does not add condition if newCondition is undefined', () => {
@@ -373,7 +453,7 @@ describe('CharactersComponent', () => {
 
       // assert
       expect(component.currentTurnId).toBe('blah2');
-      expect(component.selectedCharacter).toEqual(component.characters[1]);
+      expect(component.selectedCharacter.id).toBe(component.characters[1].id);
     })
   });
 
@@ -533,10 +613,10 @@ describe('CharactersComponent', () => {
       component.selectedCharacter.currentHp = initialHp;
       component.selectedCharacter.maxHp = 40;
       component.hpDelta = delta;
-      
+
       // act
       component.modifyHp(false);
-      
+
       // assert 
       expect(component.selectedCharacter.currentHp).toBe(initialHp - delta)
       expect(component.hpDelta).toBe(undefined);
@@ -549,10 +629,10 @@ describe('CharactersComponent', () => {
       component.selectedCharacter.currentHp = initialHp;
       component.selectedCharacter.maxHp = 40;
       component.hpDelta = delta;
-      
+
       // act
       component.modifyHp(true);
-      
+
       // assert 
       expect(component.selectedCharacter.currentHp).toBe(component.selectedCharacter.maxHp)
       expect(component.hpDelta).toBe(undefined);
