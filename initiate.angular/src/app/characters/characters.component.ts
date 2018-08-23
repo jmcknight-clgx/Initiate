@@ -70,12 +70,14 @@ export class CharactersComponent {
   displayNewCharacterForm() {
     this.newCharacter = new Character();
     this.selectCharacter(this.newCharacter);
+    this.localStorageService.addCharacter(this.selectedCharacterRef, this.characters);
   }
 
   selectCharacter(character: Character) {
     if (character) {
       this.selectedCharacterRef = character;
-      this.selectedCharacter = Object.assign(new Character(), character);
+      this.selectedCharacter = character;
+      this.localStorageService.saveCharacters(this.characters);
     }
   }
 
@@ -154,6 +156,8 @@ export class CharactersComponent {
       this.currentTurnId = nextCharacter.id;
       this.selectCharacter(nextCharacter);
     }
+
+    this.localStorageService.saveCharacters(this.characters);
   }
 
   incrementRound() {

@@ -18,6 +18,7 @@ describe('CharactersComponent', () => {
       initiative: 11,
       ac: 15,
       conditions: [] as CharacterCondition[],
+      getInit: () => 11,
     } as Character] as Character[];
 
     mockLocalStorage = jasmine.createSpyObj('LocalStorageService', ['addCharacter', 'saveCharacters', 'getCharacters', 'addCondition', 'getConditions']);
@@ -47,13 +48,14 @@ describe('CharactersComponent', () => {
   describe('getOrderedCharacters', () => {
     it('should return descending ordered list of characters', () => {
       // arrange 
-      component.characters = [
-        {
+      component.characters = [   {
+        
           id: '1',
           name: "Sir Test",
           initiative: 11,
           ac: 15,
           conditions: [] as CharacterCondition[],
+          getInit: () => 11,
         } as Character,
         {
           id: '2',
@@ -61,6 +63,7 @@ describe('CharactersComponent', () => {
           initiative: 20,
           ac: 1,
           conditions: [] as CharacterCondition[],
+          getInit: () => 20,
         } as Character
       ] as Character[];
 
@@ -85,46 +88,6 @@ describe('CharactersComponent', () => {
     });
   });
 
-  describe('saveCharacter', () => {
-    it('should call localStorageService', () => {
-      // arrange
-      let character = Object.assign(new Character(), {
-        id: '1',
-        ac: 16,
-        initiative: 12,
-        name: "Sir Butts",
-        conditions: [] as CharacterCondition[],
-      } as Character);
-      component.selectedCharacterRef = character;
-      component.newCharacter = character;
-
-      // act
-      component.saveCharacter();
-
-      // assert
-      expect(mockLocalStorage.addCharacter).toHaveBeenCalledWith(character, component.characters);
-    });
-
-    it('should set newCharacter to undefined', () => {
-      // arrange
-      let character = Object.assign(new Character(), {
-        id: '1',
-        ac: 16,
-        initiative: 12,
-        name: "Sir Butts",
-        conditions: [] as CharacterCondition[],
-      } as Character);
-      component.selectedCharacterRef = character;
-      component.newCharacter = character;
-
-      // act
-      component.saveCharacter();
-
-      // assert
-      expect(component.newCharacter).toBeFalsy();
-    });
-  });
-
   describe('resetForm', () => {
     it('should set character arrays to only pc and npc characters', () => {
       // arrange
@@ -135,6 +98,7 @@ describe('CharactersComponent', () => {
           ac: 15,
           conditions: [] as CharacterCondition[],
           id: "blah1",
+          getInit: () => 11,
           characterType: CharacterType.Monster
         } as Character,
         {
@@ -143,6 +107,7 @@ describe('CharactersComponent', () => {
           ac: 1,
           conditions: [] as CharacterCondition[],
           id: "blah2",
+          getInit: () => 20,
           characterType: CharacterType.PC
         } as Character,
         {
@@ -151,6 +116,7 @@ describe('CharactersComponent', () => {
           ac: 5,
           conditions: [] as CharacterCondition[],
           id: "blah3",
+          getInit: () => 3,
           characterType: CharacterType.NPC
         } as Character
       ] as Character[];
@@ -175,6 +141,7 @@ describe('CharactersComponent', () => {
         initiative: 12,
         name: "Sir Butts",
         conditions: [] as CharacterCondition[],
+        getInit: () => 12,
       } as Character);
       component.characters = [character];
 
@@ -192,6 +159,7 @@ describe('CharactersComponent', () => {
         initiative: 12,
         name: "Sir Butts",
         conditions: [] as CharacterCondition[],
+        getInit: () => 12,
       } as Character);
       component.selectedCharacterRef = character;
       component.selectedCharacter = character;
@@ -214,6 +182,7 @@ describe('CharactersComponent', () => {
         initiative: 12,
         name: "Sir Butts",
         conditions: [] as CharacterCondition[],
+        getInit: () => 12,
       } as Character);
       component.selectedCharacterRef = character;
       component.selectedCharacter = character;
@@ -238,6 +207,7 @@ describe('CharactersComponent', () => {
         initiative: 12,
         name: "Sir Butts",
         conditions: [] as CharacterCondition[],
+        getInit: () => 12,
       } as Character);
       component.selectedCharacter = character;
 
@@ -258,6 +228,7 @@ describe('CharactersComponent', () => {
         initiative: 12,
         name: "Sir Butts",
         conditions: [] as CharacterCondition[],
+        getInit: () => 12,
       } as Character);
       component.selectedCharacter = character;
 
@@ -278,6 +249,7 @@ describe('CharactersComponent', () => {
         initiative: 12,
         name: "Sir Butts",
         conditions: [] as CharacterCondition[],
+        getInit: () => 12,
       } as Character);
       component.selectedCharacter = character;
 
@@ -298,6 +270,7 @@ describe('CharactersComponent', () => {
         initiative: 12,
         name: "Sir Butts",
         conditions: [] as CharacterCondition[],
+        getInit: () => 12,
       } as Character);
       component.selectedCharacter = character;
 
@@ -318,6 +291,7 @@ describe('CharactersComponent', () => {
         initiative: 12,
         name: "Sir Butts",
         conditions: [] as CharacterCondition[],
+        getInit: () => 12,
       } as Character);
       component.selectedCharacter = character;
 
@@ -337,6 +311,7 @@ describe('CharactersComponent', () => {
         initiative: 12,
         name: "Sir Butts",
         conditions: [] as CharacterCondition[],
+        getInit: () => 12,
       } as Character);
       component.selectedCharacter = character;
 
@@ -358,6 +333,7 @@ describe('CharactersComponent', () => {
           ac: 15,
           conditions: [] as CharacterCondition[],
           id: "blah1",
+          getInit: () => 11,
         } as Character,
         {
           name: "Sir Test2",
@@ -365,6 +341,7 @@ describe('CharactersComponent', () => {
           ac: 1,
           conditions: [] as CharacterCondition[],
           id: "blah2",
+          getInit: () => 20,
         } as Character,
         {
           name: "Sir Test3",
@@ -372,6 +349,7 @@ describe('CharactersComponent', () => {
           ac: 5,
           conditions: [] as CharacterCondition[],
           id: "blah3",
+          getInit: () => 3,
         } as Character
       ] as Character[];
 
@@ -382,6 +360,7 @@ describe('CharactersComponent', () => {
 
       // assert
       expect(component.currentTurnId).toBe("blah1");
+      expect(mockLocalStorage.saveCharacters).toHaveBeenCalled();
     });
 
     it('Should update currentTurnId to the next character id when at the end', () => {
@@ -393,6 +372,7 @@ describe('CharactersComponent', () => {
           ac: 15,
           conditions: [] as CharacterCondition[],
           id: "blah1",
+          getInit: () => 11,
         } as Character,
         {
           name: "Sir Test2",
@@ -400,6 +380,7 @@ describe('CharactersComponent', () => {
           ac: 1,
           conditions: [] as CharacterCondition[],
           id: "blah2",
+          getInit: () => 20,
         } as Character,
         {
           name: "Sir Test3",
@@ -407,6 +388,7 @@ describe('CharactersComponent', () => {
           ac: 5,
           conditions: [] as CharacterCondition[],
           id: "blah3",
+          getInit: () => 3,
         } as Character
       ] as Character[];
 
@@ -430,6 +412,7 @@ describe('CharactersComponent', () => {
           ac: 15,
           conditions: [] as CharacterCondition[],
           id: "blah1",
+          getInit: () => 11,
         } as Character,
         {
           name: "Sir Test2",
@@ -437,6 +420,7 @@ describe('CharactersComponent', () => {
           ac: 1,
           conditions: [] as CharacterCondition[],
           id: "blah2",
+          getInit: () => 20,
         } as Character,
         {
           name: "Sir Test3",
@@ -444,6 +428,7 @@ describe('CharactersComponent', () => {
           ac: 5,
           conditions: [] as CharacterCondition[],
           id: "blah3",
+          getInit: () => 3,
         } as Character
       ] as Character[];
       component.currentTurnId = undefined;
@@ -478,6 +463,7 @@ describe('CharactersComponent', () => {
           ac: 15,
           conditions: [] as CharacterCondition[],
           id: "blah1",
+          getInit: () => 11,
         } as Character,
         {
           name: "Sir Test2",
@@ -485,6 +471,7 @@ describe('CharactersComponent', () => {
           ac: 1,
           conditions: [] as CharacterCondition[],
           id: "blah2",
+          getInit: () => 20,
         } as Character,
         {
           name: "Sir Test3",
@@ -492,6 +479,7 @@ describe('CharactersComponent', () => {
           ac: 5,
           conditions: [] as CharacterCondition[],
           id: "blah3",
+          getInit: () => 3,
         } as Character
       ] as Character[];
       component.currentTurnId = 'blah3';
