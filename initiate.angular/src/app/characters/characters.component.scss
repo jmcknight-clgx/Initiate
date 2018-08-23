@@ -10,6 +10,21 @@
     mat-sidenav {
       min-width: 23%;
 
+      h3 {
+        line-height: 28px;
+      }
+
+      .character-detail {
+        
+        mat-icon {
+          font-size: 18px;
+        }
+
+        span {
+          margin-right: 15px;
+        }
+      }
+
       #nextButton {
         width: 100%;
         color: #6770bf;
