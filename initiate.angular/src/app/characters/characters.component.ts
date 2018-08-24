@@ -1,20 +1,21 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, HostListener } from '@angular/core';
 import { Character } from '../models/character';
 import { LocalStorageService } from '../services/local-storage.service';
 import { CharacterCondition } from '../models/character-condition';
 import { CharacterType } from '../enums/character-type.enum';
-import { CombatService } from '../services/combat.service';
 import { Guid } from '../models/guid';
 import { EndCondition } from '../models/end-condition';
 import { Ability } from '../enums/ability.enum';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-characters',
   templateUrl: './characters.component.html',
   styleUrls: ['./characters.component.scss']
 })
-export class CharactersComponent {
-
+export class CharactersComponent implements OnInit {
+  innerWidth: any;
+  opened: boolean = true;
   characters: Character[] = [];
   selectedCharacterRef: Character;
   selectedCharacter: Character;
@@ -31,8 +32,9 @@ export class CharactersComponent {
   round: number;
   hpDelta: number;
   abilitySelector: any;
+  combatIsInProgress: boolean;
 
-  constructor(private localStorageService: LocalStorageService, private combatService: CombatService) {
+  constructor(private localStorageService: LocalStorageService) {
     this.characters = this.localStorageService.getCharacters();
     this.refreshCharacterConditions();
     this.resetCurrentTurnId();
@@ -46,16 +48,29 @@ export class CharactersComponent {
     });
   }
 
-  ngOnChanges() {
-    // Reset initiative order when combat has ended
-    if (this.combatService.isCombatInProgress()) {
+  ngOnInit() {
+    this.innerWidth = window.innerWidth;
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.innerWidth = window.innerWidth;
+  }
+
+  isSidebarOpened() {
+    return this.innerWidth >= 992;
+  }
+
+  toggleCombat() {
+    this.combatIsInProgress = !this.combatIsInProgress;
+    if (this.combatIsInProgress) {
       this.resetCurrentTurnId();
       this.round = 1;
     }
   }
 
-  isCombatInProgress() {
-    return this.combatService.isCombatInProgress();
+  getCombatButtonText() {
+    return this.combatIsInProgress ? "End" : "Start";
   }
 
   refreshCharacterConditions() {
@@ -146,7 +161,7 @@ export class CharactersComponent {
     this.characters = this.characters.filter(c => c.characterType != CharacterType.Monster);
     this.clearSelectedCharacter();
     this.localStorageService.saveCharacters(this.characters);
-    if (this.combatService.isCombatInProgress()) this.combatService.toggleCombat();
+    if (this.combatIsInProgress) this.toggleCombat();
   }
 
   clearSelectedCharacter() {

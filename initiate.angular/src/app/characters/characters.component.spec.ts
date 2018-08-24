@@ -217,6 +217,7 @@ describe('CharactersComponent', () => {
         getInit: () => 12,
       } as Character);
       component.selectedCharacter = character;
+      component.selectedCharacterRef = character;
 
       // act
       component.addCharacterCondition();
@@ -240,6 +241,7 @@ describe('CharactersComponent', () => {
         getInit: () => 12,
       } as Character);
       component.selectedCharacter = character;
+      component.selectedCharacterRef = character;
 
       // act
       component.addCharacterCondition();
@@ -266,6 +268,7 @@ describe('CharactersComponent', () => {
         getInit: () => 12,
       } as Character);
       component.selectedCharacter = character;
+      component.selectedCharacterRef = character;
 
       // act
       component.addCharacterCondition();
@@ -289,6 +292,7 @@ describe('CharactersComponent', () => {
         getInit: () => 12,
       } as Character);
       component.selectedCharacter = character;
+      component.selectedCharacterRef = character;
 
       // act
       component.addCharacterCondition();
@@ -310,6 +314,7 @@ describe('CharactersComponent', () => {
         getInit: () => 12,
       } as Character);
       component.selectedCharacter = character;
+      component.selectedCharacterRef = character;
 
       // act
       component.addCharacterCondition();
@@ -330,6 +335,7 @@ describe('CharactersComponent', () => {
         getInit: () => 12,
       } as Character);
       component.selectedCharacter = character;
+      component.selectedCharacterRef = character;
 
       // act
       component.addCharacterCondition();

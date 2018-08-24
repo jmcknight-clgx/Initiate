@@ -1,6 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
-import { CombatService } from '../services/combat.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -8,15 +7,7 @@ import { CombatService } from '../services/combat.service';
   styleUrls: ['./toolbar.component.scss']
 })
 export class ToolbarComponent {
-  constructor(private router: Router, private combatService: CombatService) {
-  }
-
-  toggleCombat() {
-    this.combatService.toggleCombat();
-  }
-
-  getCombatButtonText() {
-    return this.combatService.isCombatInProgress() ? "End" : "Start";
+  constructor(private router: Router) {
   }
 
   navigateToConditions() {

@@ -1,9 +1,6 @@
 <mat-toolbar>
   <span (click)="navigateToHome()"><mat-icon matListIcon>whatshot</mat-icon> Initiate</span>
-  <span *ngIf="showToolbarButtons()">
-    <button id="startButton" mat-button color="primary" (click)="toggleCombat()"><mat-icon matSuffix>flash_on</mat-icon>{{
-      getCombatButtonText() }}</button>
-    <button class="toolbar-button" mat-button (click)="navigateToConditions()"><mat-icon matListIcon>settings</mat-icon>
-      Settings</button>
-  </span>
+  <span class="spacer"></span>
+  <button *ngIf="showToolbarButtons()" class="toolbar-button" mat-button (click)="navigateToConditions()"><mat-icon matListIcon>settings</mat-icon>
+    Settings</button>
 </mat-toolbar>

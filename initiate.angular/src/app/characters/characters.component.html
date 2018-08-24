@@ -1,16 +1,9 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav mode="side" opened>
+  <mat-sidenav mode="side" [opened]="isSidebarOpened()">
     <mat-list>
-      <mat-list-item *ngIf="isCombatInProgress()">
-        <h3 matLine>Round {{round}}</h3>
-        <button class="combat" id="nextButton" mat-button (click)="next()">
-          Next <mat-icon matListIcon class="next-icon">navigate_next</mat-icon>
-        </button>
-      </mat-list-item>
-
       <mat-list-item *ngFor="let character of getOrderedCharacters(); let i = index" (click)="selectCharacter(character)" [class.selected-character]="selectedCharacter && selectedCharacter.id == character.id">
-        <mat-icon *ngIf="!(isCombatInProgress() && currentTurnId == character.id)" matListIcon>{{character.getCharacterTypeIcon()}}</mat-icon>
-        <mat-icon matListIcon *ngIf="isCombatInProgress() && currentTurnId == character.id" class="current-turn-icon">arrow_right_alt</mat-icon>
+        <mat-icon *ngIf="!(combatIsInProgress && currentTurnId == character.id)" matListIcon>{{character.getCharacterTypeIcon()}}</mat-icon>
+        <mat-icon matListIcon *ngIf="combatIsInProgress && currentTurnId == character.id" class="current-turn-icon">arrow_right_alt</mat-icon>
         <h3 matLine> {{character.name}} </h3>
         <p matLine class="character-detail" *ngIf="character.ac">
           <span><mat-icon matSuffix color="primary">security</mat-icon>{{character.ac}}</span>
@@ -32,6 +25,18 @@
   </mat-sidenav>
 
   <mat-sidenav-content>
+    <p>
+      <button id="startButton" mat-button color="primary" (click)="toggleCombat()"><mat-icon matSuffix>flash_on</mat-icon>{{
+        getCombatButtonText() }}</button>
+
+        <span class="round-details" *ngIf="combatIsInProgress">
+          <span matLine>Round {{round}}</span>
+          <button class="combat" id="nextButton" mat-button (click)="next()">
+            Next <mat-icon matListIcon class="next-icon">navigate_next</mat-icon>
+          </button>
+        </span>
+    </p>
+
     <mat-card *ngIf="selectedCharacter">
       <mat-card-title>
         <mat-form-field class="full-width">
@@ -102,27 +107,30 @@
                   <mat-form-field *ngIf="selectedCondition === 'Other'">
                     <input matLine matInput class="mat-autosize" type="text" name="condition-name" placeholder="Title" [(ngModel)]="newCondition">
                   </mat-form-field>
-                  <mat-form-field>
+                  <mat-form-field class="character-field">
                     <input matInput class="mat-autosize" type="number" name="condition-durationInRounds" placeholder="Rounds" [(ngModel)]="conditionRoundDuration">
                   </mat-form-field>
-                  <mat-form-field>
+                  <mat-form-field class="character-field">
                     <mat-select name="endConditionAbility" placeholder="Ability" [(ngModel)]="conditionEndCondition.ability">
                       <mat-option *ngFor="let ability of endConditionAbilities" [value]="ability.id">
                         {{ability.value}}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
-                  <mat-form-field>
+                  <mat-form-field class="character-field">
                     <input matInput class="mat-autosize" type="number" name="condition-durationInRounds" placeholder="DC" [(ngModel)]="conditionEndCondition.dc">
                   </mat-form-field>
                   <button mat-button (click)="addCharacterCondition()">
                     <mat-icon matListIcon>add</mat-icon>
                   </button>
                 </mat-list-item>
-                <mat-list-item *ngFor="let condition of selectedCharacter.conditions; let i = index;">
+
+                <mat-list-item class="condition" *ngFor="let condition of selectedCharacter.conditions; let i = index;">
                   <h2 matLine>{{condition.name}}</h2>
-                  <p matLine *ngIf="condition.durationInRounds">Rounds: {{condition.durationInRounds}} </p>
-                  <p matLine *ngIf="condition.endCondition">{{abilitySelector[condition.endCondition.ability]}} {{condition.endCondition.dc}}</p>
+                  <p matLine>
+                    <span *ngIf="condition.durationInRounds">{{condition.durationInRounds}} Rounds</span>
+                    <span *ngIf="condition.endCondition">{{abilitySelector[condition.endCondition.ability]}} {{condition.endCondition.dc}}</span>
+                  </p>
                   <button class="die-button" mat-icon-button (click)="removeCharacterCondition(i)"><mat-icon>close</mat-icon></button>
                   <mat-divider></mat-divider>
                 </mat-list-item>
