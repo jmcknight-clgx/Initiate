@@ -2,9 +2,17 @@
 
 <mat-card class="settings-card">
     <mat-card-title>
-            Character Conditions
+        <mat-icon matListIcon>settings</mat-icon> Character Conditions
     </mat-card-title>
     <mat-card-content>
+        <form>
+            <mat-form-field>
+                <input matLine matInput class="mat-autosize" type="text" name="condition-name" placeholder="Title" [(ngModel)]="newCondition">
+            </mat-form-field>
+            <button mat-button (click)="addCharacterCondition()">
+                <mat-icon matListIcon>add</mat-icon>
+            </button>
+        </form>
         <mat-list>
             <mat-list-item *ngFor="let condition of characterConditions; let i = index;">
                 {{condition}}

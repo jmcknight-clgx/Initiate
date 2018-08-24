@@ -61,4 +61,41 @@ describe('ConditionsComponent', () => {
       expect(mockLocalStorage.saveConditions).toHaveBeenCalled();
     });
   });
+
+  describe('addCharacterCondition', () => {
+    it('should save new condition', () => {
+      // arrange
+      component.newCondition = 'test';
+      component.characterConditions = [];
+      // act
+      component.addCharacterCondition();
+
+      // assert
+      expect(component.characterConditions.length).toBe(1);
+      expect(mockLocalStorage.saveConditions).toHaveBeenCalledWith(component.characterConditions);
+    });
+
+    it('should clear newConditions', () => {
+      // arrange
+      component.newCondition = 'test';
+      component.characterConditions = [];
+      // act
+      component.addCharacterCondition();
+
+      // assert
+      expect(component.newCondition).toBe(undefined);
+    });
+
+    it('does not add newCondition if falsey', () => {
+      // arrange
+      component.newCondition = '';
+      component.characterConditions = [];
+      // act
+      component.addCharacterCondition();
+
+      // assert
+      expect(component.characterConditions.length).toBe(0);
+      expect(mockLocalStorage.saveConditions).not.toHaveBeenCalled();
+    });
+  })
 });

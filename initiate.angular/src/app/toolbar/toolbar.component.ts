@@ -28,7 +28,7 @@ export class ToolbarComponent {
   }
 
   showToolbarButtons() {
-    if (this.router.url && this.router.url.indexOf("conditions") >= 0) return false;
+    if (this.router && this.router.url && this.router.url.indexOf("conditions") >= 0) return false;
     return true; 
   }
 
