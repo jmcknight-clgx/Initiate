@@ -29,12 +29,12 @@
       <button id="startButton" mat-button color="primary" (click)="toggleCombat()"><mat-icon matSuffix>flash_on</mat-icon>{{
         getCombatButtonText() }}</button>
 
-        <span class="round-details" *ngIf="combatIsInProgress">
-          <span matLine>Round {{round}}</span>
-          <button class="combat" id="nextButton" mat-button (click)="next()">
-            Next <mat-icon matListIcon class="next-icon">navigate_next</mat-icon>
-          </button>
-        </span>
+      <span class="round-details" *ngIf="combatIsInProgress">
+        <span matLine>Round {{round}}</span>
+        <button class="combat" id="nextButton" mat-button (click)="next()">
+          Next <mat-icon matListIcon class="next-icon">navigate_next</mat-icon>
+        </button>
+      </span>
     </p>
 
     <mat-card *ngIf="selectedCharacter">
@@ -97,33 +97,37 @@
             <mat-card-content>
               <mat-list>
                 <mat-list-item>
-                  <mat-form-field>
-                    <mat-select name="selectedCondition" placeholder="Character Condition" [(ngModel)]="selectedCondition">
-                      <mat-option *ngFor="let condition of characterConditions" [value]="condition">
-                        {{condition}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                  <mat-form-field *ngIf="selectedCondition === 'Other'">
-                    <input matLine matInput class="mat-autosize" type="text" name="condition-name" placeholder="Title" [(ngModel)]="newCondition">
-                  </mat-form-field>
-                  <mat-form-field class="character-field">
-                    <input matInput class="mat-autosize" type="number" name="condition-durationInRounds" placeholder="Rounds" [(ngModel)]="conditionRoundDuration">
-                  </mat-form-field>
-                  <mat-form-field class="character-field">
-                    <mat-select name="endConditionAbility" placeholder="Ability" [(ngModel)]="conditionEndCondition.ability">
-                      <mat-option *ngFor="let ability of endConditionAbilities" [value]="ability.id">
-                        {{ability.value}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                  <mat-form-field class="character-field">
-                    <input matInput class="mat-autosize" type="number" name="condition-durationInRounds" placeholder="DC" [(ngModel)]="conditionEndCondition.dc">
-                  </mat-form-field>
-                  <button mat-button (click)="addCharacterCondition()">
-                    <mat-icon matListIcon>add</mat-icon>
-                  </button>
+                  <p matLine>
+                    <mat-form-field>
+                      <mat-select name="selectedCondition" placeholder="Character Condition" [(ngModel)]="selectedCondition">
+                        <mat-option *ngFor="let condition of characterConditions" [value]="condition">
+                          {{condition}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field *ngIf="selectedCondition === 'Other'">
+                      <input matInput class="mat-autosize" type="text" name="condition-name" placeholder="Title" [(ngModel)]="newCondition">
+                    </mat-form-field>
+                    <mat-form-field class="character-field">
+                      <input matInput class="mat-autosize" type="number" name="condition-durationInRounds" placeholder="Rounds" [(ngModel)]="conditionRoundDuration">
+                    </mat-form-field>
+                    <mat-form-field class="character-field">
+                      <mat-select name="endConditionAbility" placeholder="Ability" [(ngModel)]="conditionEndCondition.ability">
+                        <mat-option *ngFor="let ability of endConditionAbilities" [value]="ability.id">
+                          {{ability.value}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field class="character-field">
+                      <input matInput class="mat-autosize" type="number" name="condition-durationInRounds" placeholder="DC" [(ngModel)]="conditionEndCondition.dc">
+                    </mat-form-field>
+                    <button mat-button (click)="addCharacterCondition()">
+                      <mat-icon matListIcon>add</mat-icon>
+                    </button>
+                  </p>
                 </mat-list-item>
+
+                <mat-divider></mat-divider>
 
                 <mat-list-item class="condition" *ngFor="let condition of selectedCharacter.conditions; let i = index;">
                   <h2 matLine>{{condition.name}}</h2>

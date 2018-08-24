@@ -18,9 +18,4 @@ export class ToolbarComponent {
     this.router.navigate(['/home']);
   }
 
-  showToolbarButtons() {
-    if (this.router && this.router.url && this.router.url.indexOf("conditions") >= 0) return false;
-    return true; 
-  }
-
 }
