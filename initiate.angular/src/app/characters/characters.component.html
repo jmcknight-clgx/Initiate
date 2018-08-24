@@ -96,7 +96,7 @@
             <mat-card-subtitle>Character Conditions</mat-card-subtitle>
             <mat-card-content>
               <mat-list>
-                <mat-list-item>
+                <mat-list-item class="new-condition">
                   <p matLine>
                     <mat-form-field>
                       <mat-select name="selectedCondition" placeholder="Character Condition" [(ngModel)]="selectedCondition">
@@ -108,6 +108,8 @@
                     <mat-form-field *ngIf="selectedCondition === 'Other'">
                       <input matInput class="mat-autosize" type="text" name="condition-name" placeholder="Title" [(ngModel)]="newCondition">
                     </mat-form-field>
+                  </p>
+                  <p matLine>
                     <mat-form-field class="character-field">
                       <input matInput class="mat-autosize" type="number" name="condition-durationInRounds" placeholder="Rounds" [(ngModel)]="conditionRoundDuration">
                     </mat-form-field>
