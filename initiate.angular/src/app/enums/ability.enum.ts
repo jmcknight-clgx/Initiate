@@ -1,8 +1,9 @@
 export enum Ability {
-    Strength,
-    Dexterity,
-    Constitution,
-    Intelligence,
-    Wisdom,
-    Charisma,
+    Undefined,
+    STR,
+    DEX,
+    CON,
+    INT,
+    WIS,
+    CHA,
 }

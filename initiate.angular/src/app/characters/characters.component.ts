@@ -5,6 +5,8 @@ import { CharacterCondition } from '../models/character-condition';
 import { CharacterType } from '../enums/character-type.enum';
 import { CombatService } from '../services/combat.service';
 import { Guid } from '../models/guid';
+import { EndCondition } from '../models/end-condition';
+import { Ability } from '../enums/ability.enum';
 
 @Component({
   selector: 'app-characters',
@@ -19,6 +21,8 @@ export class CharactersComponent {
   newCharacter: Character;
   newCondition: string;
   conditionRoundDuration: number;
+  conditionEndCondition: EndCondition = new EndCondition();
+  endConditionAbilities: any[] = [];
   selectedCondition: string;
   characterConditions: string[];
   characterTypeSelector: any;
@@ -26,14 +30,19 @@ export class CharactersComponent {
   currentTurnId: string;
   round: number;
   hpDelta: number;
+  abilitySelector: any;
 
   constructor(private localStorageService: LocalStorageService, private combatService: CombatService) {
     this.characters = this.localStorageService.getCharacters();
     this.refreshCharacterConditions();
     this.resetCurrentTurnId();
     this.characterTypeSelector = CharacterType;
+    this.abilitySelector = Ability;
     Object.keys(CharacterType).forEach(key => {
       if (+key) this.characterTypes.push({ id: key, value: CharacterType[key], enum: +key as CharacterType });
+    });
+    Object.keys(Ability).forEach(key => {
+      if (+key) this.endConditionAbilities.push({ id: key, value: Ability[key], enum: +key as Ability });
     });
   }
 
@@ -94,7 +103,7 @@ export class CharactersComponent {
       this.localStorageService.saveCharacters(this.characters);
     }
 
-    this.clearSelectedCharacter();
+    //this.clearSelectedCharacter();
   }
 
   removeCharacter(characterIndex: number, character: Character) {
@@ -109,9 +118,9 @@ export class CharactersComponent {
   }
 
   addCharacterCondition() {
-
     let condition = new CharacterCondition();
     condition.durationInRounds = this.conditionRoundDuration;
+    condition.endCondition = this.conditionEndCondition;
 
     if (this.newCondition) {
       condition.name = this.newCondition;
@@ -125,6 +134,8 @@ export class CharactersComponent {
         this.selectedCharacter.conditions.push(condition);
       }
     }
+
+    this.saveCharacter();
   }
 
   removeCharacterCondition(conditionIndex: number) {

@@ -5,6 +5,8 @@ import { Character } from '../models/character';
 import { CharacterCondition } from '../models/character-condition';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { CharacterType } from '../enums/character-type.enum';
+import { EndCondition } from '../models/end-condition';
+import { Ability } from '../enums/ability.enum';
 
 describe('CharactersComponent', () => {
   let component: CharactersComponent;
@@ -201,6 +203,11 @@ describe('CharactersComponent', () => {
     it('should add new condition to selectedCharacter', () => {
       // arrange
       component.newCondition = 'test';
+      component.conditionEndCondition = {
+        dc: 7,
+        ability: Ability.CHA,
+      } as EndCondition;
+
       let character = Object.assign(new Character(), {
         id: '1',
         ac: 16,
@@ -217,6 +224,8 @@ describe('CharactersComponent', () => {
       // assert
       expect(component.selectedCharacter.conditions.length).toBe(1);
       expect(component.newCondition).toEqual(undefined);
+      expect(component.selectedCharacter.conditions[0].endCondition.dc).toBe(7);
+      expect(component.selectedCharacter.conditions[0].endCondition.ability).toBe(Ability.CHA);
     });
 
     it('should save new condition', () => {
@@ -243,6 +252,11 @@ describe('CharactersComponent', () => {
       // arrange
       component.newCondition = undefined;
       component.selectedCondition = 'test';
+      component.conditionEndCondition = {
+        dc: 7,
+        ability: Ability.CHA,
+      } as EndCondition;
+
       let character = Object.assign(new Character(), {
         id: '1',
         ac: 16,
@@ -258,6 +272,8 @@ describe('CharactersComponent', () => {
 
       // assert
       expect(component.selectedCharacter.conditions.length).toBe(1);
+      expect(component.selectedCharacter.conditions[0].endCondition.dc).toBe(7);
+      expect(component.selectedCharacter.conditions[0].endCondition.ability).toBe(Ability.CHA);
     });
 
     it('should not save selected condition', () => {

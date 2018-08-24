@@ -105,6 +105,16 @@
                   <mat-form-field>
                     <input matInput class="mat-autosize" type="number" name="condition-durationInRounds" placeholder="Rounds" [(ngModel)]="conditionRoundDuration">
                   </mat-form-field>
+                  <mat-form-field>
+                    <mat-select name="endConditionAbility" placeholder="Ability" [(ngModel)]="conditionEndCondition.ability">
+                      <mat-option *ngFor="let ability of endConditionAbilities" [value]="ability.id">
+                        {{ability.value}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field>
+                    <input matInput class="mat-autosize" type="number" name="condition-durationInRounds" placeholder="DC" [(ngModel)]="conditionEndCondition.dc">
+                  </mat-form-field>
                   <button mat-button (click)="addCharacterCondition()">
                     <mat-icon matListIcon>add</mat-icon>
                   </button>
@@ -112,6 +122,7 @@
                 <mat-list-item *ngFor="let condition of selectedCharacter.conditions; let i = index;">
                   <h2 matLine>{{condition.name}}</h2>
                   <p matLine *ngIf="condition.durationInRounds">Rounds: {{condition.durationInRounds}} </p>
+                  <p matLine *ngIf="condition.endCondition">{{abilitySelector[condition.endCondition.ability]}} {{condition.endCondition.dc}}</p>
                   <button class="die-button" mat-icon-button (click)="removeCharacterCondition(i)"><mat-icon>close</mat-icon></button>
                   <mat-divider></mat-divider>
                 </mat-list-item>
