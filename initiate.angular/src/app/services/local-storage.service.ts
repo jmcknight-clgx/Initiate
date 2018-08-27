@@ -8,7 +8,8 @@ import { CharacterCondition } from '../models/character-condition';
 export class LocalStorageService {
 
     addCharacter(newCharacter: Character, characters: Character[]) {
-        characters.push(newCharacter);
+        let existingCharacter = characters.find(c => c.id == newCharacter.id);
+        if(!existingCharacter) characters.push(newCharacter);
         this.saveCharacters(characters);
     }
 
