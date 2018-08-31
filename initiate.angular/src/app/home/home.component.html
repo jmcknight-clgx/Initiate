@@ -1,2 +1,2 @@
-<app-toolbar (battleSelected)="onBattleSelectedFromToolbar($event)"></app-toolbar>
-<app-characters #characters></app-characters>
+<app-toolbar (battleSelected)="onBattleSelectedFromToolbar($event)" #toolbar></app-toolbar>
+<app-characters (battleSaved)="onBattleSaved()" #characters></app-characters>

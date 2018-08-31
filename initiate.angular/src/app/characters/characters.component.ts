@@ -14,6 +14,7 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./characters.component.scss']
 })
 export class CharactersComponent implements OnInit {
+  @Output() battleSaved: EventEmitter<any> = new EventEmitter();
   innerWidth: any;
   opened: boolean = true;
   characters: Character[] = [];
@@ -169,6 +170,7 @@ export class CharactersComponent implements OnInit {
 
   saveForm() {
     this.localStorageService.saveForm(this.characters);
+    this.battleSaved.emit();
   }
 
   clearSelectedCharacter() {

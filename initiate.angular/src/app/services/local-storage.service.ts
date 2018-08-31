@@ -59,7 +59,7 @@ export class LocalStorageService {
     }
 
     setSavedBattles(battles: Character[][]) {
-        
+        window.localStorage.setItem('savedBattles', JSON.stringify(battles));
     }
 
 }

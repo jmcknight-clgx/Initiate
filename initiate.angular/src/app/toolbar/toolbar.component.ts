@@ -17,7 +17,6 @@ export class ToolbarComponent {
   }
 
   getBattles() {
-    setTimeout(() => { this.getBattles; }, 500);
     this.savedBattles = this.localStorageService.getSavedBattles();
   }
 
@@ -37,6 +36,16 @@ export class ToolbarComponent {
 
   navigateToHome() {
     this.router.navigate(['/home']);
+  }
+
+  removeSavedBattles(index: number, event) {
+    event.stopPropagation();
+    this.savedBattles.splice(index, 1);
+    this.localStorageService.setSavedBattles(this.savedBattles);
+  }
+
+  battleSaved() {
+    this.getBattles();
   }
 
 }

@@ -1,6 +1,8 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { Character } from '../models/character';
 import { CharactersComponent } from '../characters/characters.component';
+import { MatTabNavBase } from '@angular/material/tabs/typings/tab-nav-bar';
+import { ToolbarComponent } from '../toolbar/toolbar.component';
 
 @Component({
   selector: 'app-home',
@@ -9,10 +11,15 @@ import { CharactersComponent } from '../characters/characters.component';
 })
 export class HomeComponent {
   @ViewChild(CharactersComponent) characters: CharactersComponent;
+  @ViewChild(ToolbarComponent) toolbar: ToolbarComponent;
 
   constructor() { }
 
   onBattleSelectedFromToolbar(selectedBattle: Character[]) {
     this.characters.battleSelected(selectedBattle);
+  }
+
+  onBattleSaved() {
+    this.toolbar.battleSaved();
   }
 }
