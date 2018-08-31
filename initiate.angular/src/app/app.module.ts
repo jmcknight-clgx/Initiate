@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatSidenavModule, MatIconModule, MatListModule, MatCardModule, MatInputModule, MatButtonModule, MatToolbarModule, MatSelectModule} from '@angular/material';
+import {MatSidenavModule, MatIconModule, MatListModule, MatCardModule, MatInputModule, MatButtonModule, MatToolbarModule, MatSelectModule, MatMenuModule} from '@angular/material';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { AppComponent } from './app.component';
@@ -34,6 +34,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     MatButtonModule,
     MatToolbarModule,
     MatSelectModule,
+    MatMenuModule,
   ],
   providers: [LocalStorageService],
   bootstrap: [AppComponent]

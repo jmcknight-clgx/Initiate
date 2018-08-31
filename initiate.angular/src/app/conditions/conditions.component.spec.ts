@@ -2,10 +2,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ConditionsComponent } from './conditions.component';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
-import { MatIconModule, MatToolbarModule } from '@angular/material';
+import { MatIconModule, MatToolbarModule, MatMenuModule } from '@angular/material';
 import { Router } from '@angular/router';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { LocalStorageService } from '../services/local-storage.service';
+import { Character } from '../models/character';
 
 describe('ConditionsComponent', () => {
   let component: ConditionsComponent;
@@ -14,11 +15,12 @@ describe('ConditionsComponent', () => {
   let mockLocalStorage;
   beforeEach(async(() => {
     mockRouter = jasmine.createSpyObj("Router", ["navigate"]);
-    mockLocalStorage = jasmine.createSpyObj('LocalStorageService', ['getConditions', 'saveConditions']);
+    mockLocalStorage = jasmine.createSpyObj('LocalStorageService', ['getConditions', 'saveConditions', 'getSavedBattles']);
+    mockLocalStorage.getSavedBattles.and.returnValue([[new Character()]]);
     mockLocalStorage.getConditions.and.returnValue([]);
     TestBed.configureTestingModule({
       declarations: [ ConditionsComponent, ToolbarComponent ],
-      imports: [MatIconModule, MatToolbarModule],
+      imports: [MatIconModule, MatToolbarModule, MatMenuModule,],
       providers: [
         { provide: Router, useValue: mockRouter },
         { provide: LocalStorageService, useValue: mockLocalStorage },

@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HomeComponent } from './home.component';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
 import { CharactersComponent } from '../characters/characters.component';
-import { MatIconModule, MatToolbarModule, MatListModule, MatSidenavModule, MatSelectModule, MatButtonModule, MatInputModule, MatCardModule } from '@angular/material';
+import { MatIconModule, MatToolbarModule, MatListModule, MatSidenavModule, MatSelectModule, MatButtonModule, MatInputModule, MatCardModule, MatMenuModule } from '@angular/material';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
@@ -28,6 +28,7 @@ describe('HomeComponent', () => {
         MatButtonModule,
         MatToolbarModule,
         MatSelectModule,
+        MatMenuModule,
       ],
       providers: [
         { provide: Router, useValue: mockRouter },

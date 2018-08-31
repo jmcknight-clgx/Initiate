@@ -23,7 +23,7 @@ describe('CharactersComponent', () => {
       getInit: () => 11,
     } as Character] as Character[];
 
-    mockLocalStorage = jasmine.createSpyObj('LocalStorageService', ['addCharacter', 'saveCharacters', 'getCharacters', 'addCondition', 'getConditions']);
+    mockLocalStorage = jasmine.createSpyObj('LocalStorageService', ['addCharacter', 'saveCharacters', 'getCharacters', 'addCondition', 'getConditions', 'saveForm']);
     mockLocalStorage.getCharacters.and.returnValue(characters);
     mockLocalStorage.getConditions.and.returnValue([]);
 
@@ -648,4 +648,42 @@ describe('CharactersComponent', () => {
       expect(component.hpDelta).toBe(undefined);
     });
   });
+
+  describe('saveForm', () => {
+    it('calls saveForm from localStorageService', () => {
+      // arrange
+      component.characters = [
+        {
+          name: "Sir Test1",
+          initiative: 11,
+          ac: 15,
+          conditions: [] as CharacterCondition[],
+          id: "blah1",
+          getInit: () => 11,
+        } as Character,
+        {
+          name: "Sir Test2",
+          initiative: 20,
+          ac: 1,
+          conditions: [] as CharacterCondition[],
+          id: "blah2",
+          getInit: () => 20,
+        } as Character,
+        {
+          name: "Sir Test3",
+          initiative: 3,
+          ac: 5,
+          conditions: [] as CharacterCondition[],
+          id: "blah3",
+          getInit: () => 3,
+        } as Character
+      ] as Character[];
+
+      // act
+      component.saveForm();
+
+      // assert
+      expect(mockLocalStorage.saveForm).toHaveBeenCalledWith(component.characters);
+    });
+  })
 });

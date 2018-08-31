@@ -43,4 +43,23 @@ export class LocalStorageService {
         window.localStorage.setItem('conditions', JSON.stringify(conditions));
     }
 
+    saveForm(characters: Character[]) {
+        let battles = this.getSavedBattles();
+        battles.push(characters);
+        window.localStorage.setItem('savedBattles', JSON.stringify(battles));
+    }
+
+    getSavedBattles() : Character[][] {
+        let battlesJson = window.localStorage.getItem('savedBattles');
+        if(!battlesJson) return [];
+        let battles = JSON.parse(battlesJson) as Character[][];
+        return battles.map(battle => {
+            return battle.map(c => Object.assign(new Character(), c));
+        });
+    }
+
+    setSavedBattles(battles: Character[][]) {
+        
+    }
+
 }

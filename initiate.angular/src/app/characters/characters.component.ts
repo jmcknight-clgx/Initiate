@@ -57,6 +57,11 @@ export class CharactersComponent implements OnInit {
     this.innerWidth = window.innerWidth;
   }
 
+  battleSelected(battle: Character[]) {
+    this.resetForm();
+    this.characters = battle;
+  }
+
   isSidebarOpened() {
     return this.innerWidth >= 992;
   }
@@ -117,8 +122,6 @@ export class CharactersComponent implements OnInit {
       // save character
       this.localStorageService.saveCharacters(this.characters);
     }
-
-    //this.clearSelectedCharacter();
   }
 
   removeCharacter(characterIndex: number, character: Character) {
@@ -162,6 +165,10 @@ export class CharactersComponent implements OnInit {
     this.clearSelectedCharacter();
     this.localStorageService.saveCharacters(this.characters);
     if (this.combatIsInProgress) this.toggleCombat();
+  }
+
+  saveForm() {
+    this.localStorageService.saveForm(this.characters);
   }
 
   clearSelectedCharacter() {

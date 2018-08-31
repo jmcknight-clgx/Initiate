@@ -12,13 +12,16 @@
         <button class="die-button" mat-icon-button (click)="removeCharacter(i, character)"><mat-icon>close</mat-icon></button>
       </mat-list-item>
       <mat-list-item>
-        <button id="addCharacterButton" mat-button (click)="displayNewCharacterForm()">
+        <button class="form-button" mat-button (click)="displayNewCharacterForm()">
           <mat-icon matListIcon>add</mat-icon> Add Character
         </button>
       </mat-list-item>
       <mat-list-item>
-        <button id="resetButton" mat-button (click)="resetForm()">
-          <mat-icon matListIcon>refresh</mat-icon> Reset
+        <button class="form-button" mat-button (click)="resetForm()">
+          <mat-icon matListIcon>refresh</mat-icon>
+        </button>
+        <button class="form-button" mat-button (click)="saveForm()">
+          <mat-icon matListIcon>save</mat-icon>
         </button>
       </mat-list-item>
     </mat-list>
