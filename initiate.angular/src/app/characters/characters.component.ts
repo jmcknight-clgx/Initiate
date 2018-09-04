@@ -230,12 +230,6 @@ export class CharactersComponent implements OnInit {
     this.hpDelta = undefined;
   }
 
-  getInitLabel() {
-    if (this.selectedCharacter.characterType == CharacterType.Monster || this.selectedCharacter.characterType == CharacterType.NPC)
-      return "Init Mod";
-    return "Inititive";
-  }
-
   clone() {
     if (this.selectCharacter) {
       let temp = Object.assign(new Character(), this.selectedCharacter);;

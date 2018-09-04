@@ -58,7 +58,8 @@
           </mat-form-field>
 
           <mat-form-field class="character-field">
-            <input matInput class="mat-autosize" type="number" name="initiative" placeholder="{{getInitLabel()}}" [(ngModel)]="selectedCharacter.initiative">
+            <input matInput *ngIf="selectedCharacter.characterType == characterTypeSelector.PC" class="mat-autosize" type="number" name="initiative" placeholder="initiative" [(ngModel)]="selectedCharacter.initiative">
+            <input matInput *ngIf="selectedCharacter.characterType != characterTypeSelector.PC" readonly class="mat-autosize" type="number" name="initiative" placeholder="initiative" [value]="selectedCharacter.getInit()">
             <mat-icon matSuffix>flash_on</mat-icon>
           </mat-form-field>
 

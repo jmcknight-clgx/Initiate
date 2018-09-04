@@ -52,6 +52,6 @@ export class Character extends SerializeHelper {
         if (this.characterType == CharacterType.PC)
             return this.initiative;
         else
-            return this.d20Roll + this.initiative;
+            return this.d20Roll + this.stats.DexterityMod;
     }
 }
