@@ -95,6 +95,40 @@
             <mat-icon>remove</mat-icon>
           </button>
 
+          <br/>
+          <br/>
+
+          ({{selectedCharacter.stats.StrengthMod}})
+          <mat-form-field class="character-field">
+            <input matInput class="mat-autosize" type="number" name="STR" placeholder="STR" [(ngModel)]="selectedCharacter.stats.Strength">
+            <!-- <mat-icon matSuffix>security</mat-icon> -->
+          </mat-form-field>
+          ({{selectedCharacter.stats.DexterityMod}})
+          <mat-form-field class="character-field">
+            <input matInput class="mat-autosize" type="number" name="DEX" placeholder="DEX" [(ngModel)]="selectedCharacter.stats.Dexterity">
+            <!-- <mat-icon matSuffix>security</mat-icon> -->
+          </mat-form-field>
+          ({{selectedCharacter.stats.ConstitutionMod}})
+          <mat-form-field class="character-field">
+            <input matInput class="mat-autosize" type="number" name="CON" placeholder="CON" [(ngModel)]="selectedCharacter.stats.Constitution">
+            <!-- <mat-icon matSuffix>security</mat-icon> -->
+          </mat-form-field>
+          ({{selectedCharacter.stats.IntelligenceMod}})
+          <mat-form-field class="character-field">
+            <input matInput class="mat-autosize" type="number" name="INT" placeholder="INT" [(ngModel)]="selectedCharacter.stats.Intelligence">
+            <!-- <mat-icon matSuffix>security</mat-icon> -->
+          </mat-form-field>
+          ({{selectedCharacter.stats.WisdomMod}})
+          <mat-form-field class="character-field">
+            <input matInput class="mat-autosize" type="number" name="WIS" placeholder="WIS" [(ngModel)]="selectedCharacter.stats.Wisdom">
+            <!-- <mat-icon matSuffix>security</mat-icon> -->
+          </mat-form-field>
+          ({{selectedCharacter.stats.CharismaMod}})
+          <mat-form-field class="character-field">
+            <input matInput class="mat-autosize" type="number" name="CHA" placeholder="CHA" [(ngModel)]="selectedCharacter.stats.Charisma">
+            <!-- <mat-icon matSuffix>security</mat-icon> -->
+          </mat-form-field>
+
           <mat-card>
             <mat-card-subtitle>Character Conditions</mat-card-subtitle>
             <mat-card-content>

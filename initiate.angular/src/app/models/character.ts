@@ -1,14 +1,25 @@
 import { CharacterCondition } from "./character-condition";
 import { CharacterType } from "../enums/character-type.enum";
 import { Guid } from "./guid";
+import { Stats } from "./stats";
+import { SerializeHelper } from "./serialize-helper";
 
-export class Character {
+export class Character extends SerializeHelper {
 
     constructor() {
+        super();
         this.id = Guid.newGuid();
         this.d20Roll = Math.floor(Math.random() * 20) + 1;
         this.characterType == CharacterType.PC;
+        this.stats = new Stats();
     }
+
+    // constructor(id: string, name: string, initiative: number, ac: number, currentHp: number, maxHp:number, conditions: CharacterCondition[]) {
+    //     this.id = Guid.newGuid();
+    //     this.d20Roll = Math.floor(Math.random() * 20) + 1;
+    //     this.characterType == CharacterType.PC;
+    //     this.stats = new Stats();
+    // }
 
     public id: string;
     public name: string;
@@ -19,6 +30,7 @@ export class Character {
     public conditions: CharacterCondition[] = [];
     public characterType: CharacterType;
     public d20Roll: number;
+    public stats: Stats;
 
     populate(character: Character) {
         this.id = character.id;

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Character } from '../models/character';
 import { CharacterCondition } from '../models/character-condition';
+import { Stats } from '../models/stats';
 
 @Injectable({
     providedIn: 'root',
@@ -20,8 +21,14 @@ export class LocalStorageService {
     getCharacters(): Character[] {
         let charactersItem = window.localStorage.getItem('characters');
         if (charactersItem) {
-            let characters = JSON.parse(charactersItem) as Character[];
-            return characters.map(c => Object.assign(new Character(), c));
+            let charactersJsonObj = JSON.parse(charactersItem) as Character[];
+            return charactersJsonObj.map(c => {
+                let char = new Character();
+                char.fillFromJSONObj(c)
+                char.stats = new Stats();
+                char.stats.fillFromJSONObj(c.stats)
+                return char;
+            });
         }
 
         return [] as Character[];
