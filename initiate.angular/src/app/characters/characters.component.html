@@ -4,7 +4,7 @@
       <mat-list-item *ngFor="let character of getOrderedCharacters(); let i = index" (click)="selectCharacter(character)" [class.selected-character]="selectedCharacter && selectedCharacter.id == character.id">
         <mat-icon *ngIf="!(combatIsInProgress && currentTurnId == character.id)" matListIcon>{{character.getCharacterTypeIcon()}}</mat-icon>
         <mat-icon matListIcon *ngIf="combatIsInProgress && currentTurnId == character.id" class="current-turn-icon">arrow_right_alt</mat-icon>
-        <h3 matLine> {{character.name}} </h3>
+        <h3 matLine> {{character.name}} <span *ngIf="character.conditions.length > 0"><mat-icon matSuffix color="warn">outlined_flag</mat-icon></span></h3>
         <p matLine class="character-detail" *ngIf="character.ac">
           <span><mat-icon matSuffix color="primary">security</mat-icon>{{character.ac}}</span>
           <span><mat-icon matSuffix color="warn">favorite_border</mat-icon>{{character.currentHp}}</span>
