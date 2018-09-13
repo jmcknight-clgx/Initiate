@@ -24,9 +24,9 @@ export class LocalStorageService {
             let charactersJsonObj = JSON.parse(charactersItem) as Character[];
             return charactersJsonObj.map(c => {
                 let char = new Character();
-                char.fillFromJSONObj(c)
+                char.fillFromObj(c)
                 char.stats = new Stats();
-                char.stats.fillFromJSONObj(c.stats)
+                char.stats.fillFromObj(c.stats)
                 return char;
             });
         }
@@ -61,7 +61,13 @@ export class LocalStorageService {
         if(!battlesJson) return [];
         let battles = JSON.parse(battlesJson) as Character[][];
         return battles.map(battle => {
-            return battle.map(c => Object.assign(new Character(), c));
+            return battle.map(c => {
+                let char = new Character();
+                char.fillFromObj(c)
+                char.stats = new Stats();
+                char.stats.fillFromObj(c.stats)
+                return char;
+            });
         });
     }
 

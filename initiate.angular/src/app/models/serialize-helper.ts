@@ -1,5 +1,5 @@
 export class SerializeHelper {
-    fillFromJSONObj(jsonObj: any) {
+    fillFromObj(jsonObj: any) {
         for (var propName in jsonObj) {
             this[propName] = jsonObj[propName];
         }
