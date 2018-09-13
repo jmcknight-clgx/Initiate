@@ -5,7 +5,7 @@
   <button class="battles-button" mat-button [matMenuTriggerFor]="battles"><mat-icon matListIcon>folder_shared</mat-icon>  Battles</button>
 
   <mat-menu #battles="matMenu">
-    <button *ngFor="let battle of savedBattles; let i = index" mat-menu-item (click)="selectBattle(battle)">{{ getBattleTitle(battle) }} <span class="remove-battle-button" (click)="removeSavedBattles(i, $event)">X</span></button>
+    <button *ngFor="let battle of savedBattles; let i = index" mat-menu-item (click)="selectBattle(battle)"><span class="remove-battle-button" (click)="removeSavedBattles(i, $event)">X</span> {{ getBattleTitle(battle) }} </button>
   </mat-menu>
 
   <button class="toolbar-button" mat-button (click)="navigateToConditions()"><mat-icon matListIcon>settings</mat-icon>  Settings</button>
