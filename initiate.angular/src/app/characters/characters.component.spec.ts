@@ -163,6 +163,14 @@ describe('CharactersComponent', () => {
         conditions: [] as CharacterCondition[],
         getInit: () => 12,
       } as Character);
+      let character2 = Object.assign(new Character(), {
+        id: '2',
+        ac: 16,
+        initiative: 12,
+        name: "Sir Butts",
+        conditions: [] as CharacterCondition[],
+        getInit: () => 12,
+      } as Character);
       component.selectedCharacterRef = character;
       component.selectedCharacter = character;
       component.characters = [character];
@@ -171,8 +179,8 @@ describe('CharactersComponent', () => {
       component.removeCharacter(0, character);
 
       // assert
-      expect(component.selectedCharacterRef).toBe(undefined);
-      expect(component.selectedCharacter).toBe(undefined);
+      expect(component.selectedCharacterRef).toBe(component.characters.find(c => c.id == component.currentTurnId));
+      expect(component.selectedCharacter).toBe(component.characters.find(c => c.id == component.currentTurnId));
     });
   });
 
