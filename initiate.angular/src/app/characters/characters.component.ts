@@ -136,10 +136,12 @@ export class CharactersComponent implements OnInit {
     }
 
     // select next character
-    let nextCharacter = characterIndex == this.characters.length ? this.characters[0] : this.characters[characterIndex];
-    if (nextCharacter) {
-      this.currentTurnId = nextCharacter.id;
-      this.selectCharacter(this.characters.find(c => c.id == this.currentTurnId));
+    if (this.currentTurnId == character.id) {
+      let nextCharacter = characterIndex == this.characters.length ? this.characters[0] : this.characters[characterIndex];
+      if (nextCharacter) {
+        this.currentTurnId = nextCharacter.id;
+        this.selectCharacter(this.characters.find(c => c.id == this.currentTurnId));
+      }
     }
   }
 
