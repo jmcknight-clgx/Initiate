@@ -185,10 +185,15 @@ export class CharactersComponent implements OnInit {
     this.clearSelectedCharacter();
     this.localStorageService.saveCharacters(this.currentBattle);
     if (this.combatIsInProgress) this.toggleCombat();
+    this.currentBattle.name = "untitled";
   }
 
   saveForm() {
-    this.battleNameDialogRef = this.dialog.open(BattleModalComponent);
+    this.battleNameDialogRef = this.dialog.open(BattleModalComponent, {
+      data: {
+        name: this.currentBattle.name
+      }
+    });
     this.battleNameDialogRef.afterClosed().subscribe(name => {
       if (name)
       {
