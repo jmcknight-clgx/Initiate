@@ -56,6 +56,7 @@ export class LocalStorageService {
 
     saveForm(battle: Battle) {
         let battles = this.getSavedBattles();
+        battles = battles.filter(x => x.name != battle.name);
         battles.push(battle);
         window.localStorage.setItem('savedBattles', JSON.stringify(battles));
     }
