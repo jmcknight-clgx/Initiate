@@ -7,11 +7,16 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { CharacterType } from '../enums/character-type.enum';
 import { EndCondition } from '../models/end-condition';
 import { Ability } from '../enums/ability.enum';
+import { MatDialog } from '@angular/material';
+import { observable, of } from 'rxjs';
+import { Battle } from '../models/battle';
 
 describe('CharactersComponent', () => {
   let component: CharactersComponent;
   let fixture: ComponentFixture<CharactersComponent>;
   let mockLocalStorage: any;
+  let mockDialog: any;
+  let mockDialogRef: any;
 
   beforeEach(async(() => {
     let characters = [{
@@ -23,16 +28,26 @@ describe('CharactersComponent', () => {
       getInit: () => 11,
     } as Character] as Character[];
 
+    let battle = new Battle();
+    battle.name = "thing";
+    battle.characters = characters;
+
     mockLocalStorage = jasmine.createSpyObj('LocalStorageService', ['addCharacter', 'saveCharacters', 'getCharacters', 'addCondition', 'getConditions', 'saveForm']);
-    mockLocalStorage.getCharacters.and.returnValue(characters);
+    mockLocalStorage.getCharacters.and.returnValue(battle);
     mockLocalStorage.getConditions.and.returnValue([]);
+
+    mockDialog = jasmine.createSpyObj('MatDialog', ['open']);
+    mockDialogRef = jasmine.createSpyObj('MatDialogRef<BattleModalComponent>', ['afterClosed']);
+    mockDialog.open.and.returnValue(mockDialogRef);
+    mockDialogRef.afterClosed.and.returnValue(of("booger"));
 
     TestBed.configureTestingModule({
       declarations: [
         CharactersComponent
       ],
       providers: [
-        { provide: LocalStorageService, useValue: mockLocalStorage }
+        { provide: LocalStorageService, useValue: mockLocalStorage },
+        { provide: MatDialog, useValue: mockDialog}
       ],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
@@ -91,9 +106,9 @@ describe('CharactersComponent', () => {
   });
 
   describe('resetForm', () => {
-    it('should set character arrays to only pc and npc characters', () => {
+    fit('should set character arrays to only pc and npc characters', () => {
       // arrange
-      component.characters = [
+      component.currentBattle.characters = [
         {
           name: "Sir Test1",
           initiative: 11,
@@ -127,9 +142,10 @@ describe('CharactersComponent', () => {
       component.resetForm();
 
       // assert
-      let expectedCharacters = component.characters.filter(c => c.characterType != CharacterType.Monster);
-      expect(mockLocalStorage.saveCharacters).toHaveBeenCalledWith(expectedCharacters);
-      expect(component.characters.length).toBe(2);
+      let expectedCharacters = component.currentBattle.characters.filter(c => c.characterType != CharacterType.Monster);
+      expect(expectedCharacters).toEqual(component.currentBattle.characters);
+      expect(mockLocalStorage.saveCharacters).toHaveBeenCalledWith(component.currentBattle);
+      expect(component.currentBattle.characters.length).toBe(2);
       expect(component.selectedCharacterRef).toBe(undefined);
       expect(component.selectedCharacter).toBe(undefined);
     });
@@ -660,7 +676,7 @@ describe('CharactersComponent', () => {
   describe('saveForm', () => {
     it('calls saveForm from localStorageService', () => {
       // arrange
-      component.characters = [
+      component.currentBattle.characters = [
         {
           name: "Sir Test1",
           initiative: 11,
@@ -691,7 +707,18 @@ describe('CharactersComponent', () => {
       component.saveForm();
 
       // assert
-      expect(mockLocalStorage.saveForm).toHaveBeenCalledWith(component.characters);
+      expect(mockLocalStorage.saveForm).toHaveBeenCalledWith(component.currentBattle);
+    });
+
+    it('does not call saveForm from localStorageService when no battle name set', () => {
+      // arrange
+      mockDialogRef.afterClosed.and.returnValue(of(""));
+
+      // act
+      component.saveForm();
+
+      // assert
+      expect(mockLocalStorage.saveForm).not.toHaveBeenCalled();
     });
   })
 });

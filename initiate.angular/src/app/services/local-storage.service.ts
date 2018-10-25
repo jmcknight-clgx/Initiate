@@ -2,36 +2,40 @@ import { Injectable } from '@angular/core';
 import { Character } from '../models/character';
 import { CharacterCondition } from '../models/character-condition';
 import { Stats } from '../models/stats';
+import { Battle } from '../models/battle';
 
 @Injectable({
     providedIn: 'root',
 })
 export class LocalStorageService {
 
-    addCharacter(newCharacter: Character, characters: Character[]) {
-        let existingCharacter = characters.find(c => c.id == newCharacter.id);
-        if(!existingCharacter) characters.push(newCharacter);
-        this.saveCharacters(characters);
+    addCharacter(newCharacter: Character, battle: Battle) {
+        let existingCharacter = battle.characters.find(c => c.id == newCharacter.id);
+        if(!existingCharacter) battle.characters.push(newCharacter);
+        this.saveCharacters(battle);
     }
 
-    saveCharacters(characters: Character[]) {
-        window.localStorage.setItem('characters', JSON.stringify(characters));
+    saveCharacters(battle: Battle) {
+        window.localStorage.setItem('battle', JSON.stringify(battle));
     }
 
-    getCharacters(): Character[] {
-        let charactersItem = window.localStorage.getItem('characters');
-        if (charactersItem) {
-            let charactersJsonObj = JSON.parse(charactersItem) as Character[];
-            return charactersJsonObj.map(c => {
-                let char = new Character();
-                char.fillFromObj(c)
-                char.stats = new Stats();
-                char.stats.fillFromObj(c.stats)
-                return char;
-            });
+    getCharacters(): Battle {
+        let battleJson = window.localStorage.getItem('battle');
+        if (battleJson) {
+            let battle = JSON.parse(battleJson) as Battle;
+            battle.characters = battle.characters.map(c => {
+                        let char = new Character();
+                        char.fillFromObj(c)
+                        char.stats = new Stats();
+                        char.stats.fillFromObj(c.stats)
+                        return char;
+                    });
+            return battle
         }
+        let battle = new Battle();
+        battle.characters = [];
 
-        return [] as Character[];
+        return battle;
     }
 
     addCondition(conditionName: string) {
@@ -50,28 +54,32 @@ export class LocalStorageService {
         window.localStorage.setItem('conditions', JSON.stringify(conditions));
     }
 
-    saveForm(characters: Character[]) {
+    saveForm(battle: Battle) {
         let battles = this.getSavedBattles();
-        battles.push(characters);
+        battles.push(battle);
         window.localStorage.setItem('savedBattles', JSON.stringify(battles));
     }
 
-    getSavedBattles() : Character[][] {
+    getSavedBattles() : Battle[] {
         let battlesJson = window.localStorage.getItem('savedBattles');
         if(!battlesJson) return [];
-        let battles = JSON.parse(battlesJson) as Character[][];
+        let battles = JSON.parse(battlesJson) as Battle[];
         return battles.map(battle => {
-            return battle.map(c => {
-                let char = new Character();
-                char.fillFromObj(c)
-                char.stats = new Stats();
-                char.stats.fillFromObj(c.stats)
-                return char;
-            });
+            return {
+                name: battle.name,
+                characters: battle.characters.map(c => {
+                    let char = new Character();
+                    char.fillFromObj(c)
+                    char.stats = new Stats();
+                    char.stats.fillFromObj(c.stats)
+                    return char;
+                }),
+            } as Battle
         });
+    
     }
 
-    setSavedBattles(battles: Character[][]) {
+    setSavedBattles(battles: Battle[]) {
         window.localStorage.setItem('savedBattles', JSON.stringify(battles));
     }
 

@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>Add file</h1>
+<mat-dialog-content>
+  <input matInput class="mat-autosize" type="string" name="Battle name" placeholder="Battle name" [(ngModel)]="battleName">
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close={{battleName}}>Add</button>
+  <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

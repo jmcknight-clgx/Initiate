@@ -3,6 +3,7 @@ import { Character } from '../models/character';
 import { CharactersComponent } from '../characters/characters.component';
 import { MatTabNavBase } from '@angular/material/tabs/typings/tab-nav-bar';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
+import { Battle } from '../models/battle';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +16,7 @@ export class HomeComponent {
 
   constructor() { }
 
-  onBattleSelectedFromToolbar(selectedBattle: Character[]) {
+  onBattleSelectedFromToolbar(selectedBattle: Battle) {
     this.characters.battleSelected(selectedBattle);
   }
 

@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '../services/local-storage.service';
 import { Character } from '../models/character';
+import { Battle } from '../models/battle';
 
 @Component({
   selector: 'app-toolbar',
@@ -10,7 +11,7 @@ import { Character } from '../models/character';
 })
 export class ToolbarComponent {
   @Output() battleSelected: EventEmitter<any> = new EventEmitter();
-  public savedBattles: Character[][];
+  public savedBattles: Battle[];
 
   constructor(private router: Router, private localStorageService: LocalStorageService) {
     this.getBattles();
@@ -20,13 +21,7 @@ export class ToolbarComponent {
     this.savedBattles = this.localStorageService.getSavedBattles();
   }
 
-  getBattleTitle(battle: Character[]) {
-    let battleTitle = '';
-    battle.forEach(c => battleTitle += c.name + ' ');
-    return battleTitle.length > 30 ? battleTitle.substr(0, 30) + '...' : battleTitle;
-  }
-
-  selectBattle(battle: Character[]) {
+  selectBattle(battle: Battle) {
     this.battleSelected.emit(battle);
   }
 

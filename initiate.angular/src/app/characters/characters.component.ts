@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, HostListener } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, HostListener, ViewChild } from '@angular/core';
 import { Character } from '../models/character';
 import { LocalStorageService } from '../services/local-storage.service';
 import { CharacterCondition } from '../models/character-condition';
@@ -7,6 +7,9 @@ import { Guid } from '../models/guid';
 import { EndCondition } from '../models/end-condition';
 import { Ability } from '../enums/ability.enum';
 import { FormGroup } from '@angular/forms';
+import { BattleModalComponent } from '../battle-modal/battle-modal.component';
+import { MatDialog, MatDialogRef } from '@angular/material';
+import { Battle } from '../models/battle';
 
 @Component({
   selector: 'app-characters',
@@ -34,9 +37,13 @@ export class CharactersComponent implements OnInit {
   hpDelta: number;
   abilitySelector: any;
   combatIsInProgress: boolean;
+  battleNameDialogRef: MatDialogRef<BattleModalComponent>;
+  currentBattle: Battle;
+  // @ViewChild(BattleModalComponent) battleModal: BattleModalComponent;
 
-  constructor(private localStorageService: LocalStorageService) {
-    this.characters = this.localStorageService.getCharacters();
+  constructor(private localStorageService: LocalStorageService, private dialog: MatDialog) {
+    this.currentBattle = this.localStorageService.getCharacters();
+    this.characters = this.currentBattle.characters;
     this.refreshCharacterConditions();
     this.resetCurrentTurnId();
     this.characterTypeSelector = CharacterType;
@@ -58,9 +65,10 @@ export class CharactersComponent implements OnInit {
     this.innerWidth = window.innerWidth;
   }
 
-  battleSelected(battle: Character[]) {
+  battleSelected(battle: Battle) {
     this.resetForm();
-    this.characters = battle;
+    this.characters = battle.characters;
+    this.currentBattle = battle;
   }
 
   isSidebarOpened() {
@@ -101,14 +109,14 @@ export class CharactersComponent implements OnInit {
   displayNewCharacterForm() {
     this.newCharacter = new Character();
     this.selectCharacter(this.newCharacter);
-    this.localStorageService.addCharacter(this.selectedCharacterRef, this.characters);
+    this.localStorageService.addCharacter(this.selectedCharacterRef, this.currentBattle);
   }
 
   selectCharacter(character: Character) {
     if (character) {
       this.selectedCharacterRef = character;
       this.selectedCharacter = character;
-      this.localStorageService.saveCharacters(this.characters);
+      this.localStorageService.saveCharacters(this.currentBattle);
     }
   }
 
@@ -117,11 +125,11 @@ export class CharactersComponent implements OnInit {
 
     if (this.newCharacter) {
       // add character
-      this.localStorageService.addCharacter(this.selectedCharacterRef, this.characters);
+      this.localStorageService.addCharacter(this.selectedCharacterRef, this.currentBattle);
       this.newCharacter = undefined;
     } else {
       // save character
-      this.localStorageService.saveCharacters(this.characters);
+      this.localStorageService.saveCharacters(this.currentBattle);
     }
   }
 
@@ -129,7 +137,8 @@ export class CharactersComponent implements OnInit {
     let characters = this.getOrderedCharacters();
     characters.splice(characterIndex, 1);
     this.characters = characters;
-    this.localStorageService.saveCharacters(characters);
+    this.currentBattle.characters = characters;
+    this.localStorageService.saveCharacters(this.currentBattle);
 
     if (this.selectedCharacter && character.id === this.selectedCharacter.id) {
       this.clearSelectedCharacter();
@@ -171,15 +180,23 @@ export class CharactersComponent implements OnInit {
   }
 
   resetForm() {
-    this.characters = this.characters.filter(c => c.characterType != CharacterType.Monster);
+    this.currentBattle.characters = this.currentBattle.characters.filter(c => c.characterType != CharacterType.Monster);
+    this.characters = this.currentBattle.characters;
     this.clearSelectedCharacter();
-    this.localStorageService.saveCharacters(this.characters);
+    this.localStorageService.saveCharacters(this.currentBattle);
     if (this.combatIsInProgress) this.toggleCombat();
   }
 
   saveForm() {
-    this.localStorageService.saveForm(this.characters);
-    this.battleSaved.emit();
+    this.battleNameDialogRef = this.dialog.open(BattleModalComponent);
+    this.battleNameDialogRef.afterClosed().subscribe(name => {
+      if (name)
+      {
+        this.currentBattle.name = name;
+        this.localStorageService.saveForm(this.currentBattle);
+        this.battleSaved.emit();
+      }
+    });
   }
 
   clearSelectedCharacter() {
@@ -202,7 +219,7 @@ export class CharactersComponent implements OnInit {
       this.selectCharacter(nextCharacter);
     }
 
-    this.localStorageService.saveCharacters(this.characters);
+    this.localStorageService.saveCharacters(this.currentBattle);
   }
 
   incrementRound() {
@@ -225,7 +242,7 @@ export class CharactersComponent implements OnInit {
     this.resetCurrentTurnId();
 
     // save characters
-    this.localStorageService.saveCharacters(this.characters);
+    this.localStorageService.saveCharacters(this.currentBattle);
   }
 
   setInitialHp() {

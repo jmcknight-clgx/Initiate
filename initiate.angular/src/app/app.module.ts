@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatSidenavModule, MatIconModule, MatListModule, MatCardModule, MatInputModule, MatButtonModule, MatToolbarModule, MatSelectModule, MatMenuModule} from '@angular/material';
+import {MatSidenavModule, MatIconModule, MatListModule, MatCardModule, MatInputModule, MatButtonModule, MatToolbarModule, MatSelectModule, MatMenuModule, MatDialogModule} from '@angular/material';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { AppComponent } from './app.component';
@@ -11,6 +11,7 @@ import { ConditionsComponent } from './conditions/conditions.component';
 import { routing } from 'src/app/app.routes';
 import { HomeComponent } from './home/home.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
+import { BattleModalComponent } from './battle-modal/battle-modal.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     CharactersComponent,
     ConditionsComponent,
     HomeComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    BattleModalComponent,
   ],
   imports: [
     routing,
@@ -35,8 +37,10 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     MatToolbarModule,
     MatSelectModule,
     MatMenuModule,
+    MatDialogModule,
   ],
   providers: [LocalStorageService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [BattleModalComponent]
 })
 export class AppModule { }
