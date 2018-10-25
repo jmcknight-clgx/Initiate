@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { LocalStorageService } from '../services/local-storage.service';
 import { Character } from '../models/character';
 import { Battle } from '../models/battle';
+import { Stats } from '../models/stats';
 
 @Component({
   selector: 'app-toolbar',
@@ -22,7 +23,17 @@ export class ToolbarComponent {
   }
 
   selectBattle(battle: Battle) {
-    this.battleSelected.emit(battle);
+    //copy battle
+    let json = JSON.stringify(battle)
+    let battleCopy = JSON.parse(json) as Battle;
+    battleCopy.characters = battleCopy.characters.map(c => {
+                let char = new Character();
+                char.fillFromObj(c)
+                char.stats = new Stats();
+                char.stats.fillFromObj(c.stats)
+                return char;
+            });
+    this.battleSelected.emit(battleCopy);
   }
 
   navigateToConditions() {
